@@ -1151,18 +1151,8 @@
     align-items: center;
     justify-content: center;
   }
-  /* scanlines on player */
-  .vhs-player-screen::before {
-    content: '';
-    position: absolute; inset: 0;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent 0, transparent 2px,
-      rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 3px
-    );
-    pointer-events: none;
-    z-index: 5;
-  }
+  /* scanlines on player — disabled for clean playback */
+  .vhs-player-screen::before { display: none; }
   /* glare */
   .vhs-player-screen::after {
     content: '';
