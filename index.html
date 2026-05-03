@@ -1,0 +1,2946 @@
+<!DOCTYPE html>
+<!-- saved from url=(0110)file:///D:/%E5%BF%AB%E9%80%9F%E8%AE%BF%E9%97%AE%E2%80%94%E2%80%94%E4%B8%8B%E8%BD%BD/chenhong-portfolio_45.html -->
+<html lang="zh-CN"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>陈虹 · CHEN HONG / Portfolio — AI Trainer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="./陈虹 · CHEN HONG _ Portfolio — AI Trainer_files/css2" rel="stylesheet">
+<style>
+  :root {
+    --bg-room: #0e0a07;
+    --bg-room-2: #1a1612;
+    --case-light: #c4b094;
+    --case-mid: #a89274;
+    --case-dark: #6e5a3e;
+    --case-shadow: #2a2014;
+    --screen-bg: #1a1410;
+    --screen-bg-2: #2a2218;
+    --gold: #d4a857;
+    --gold-bright: #f0c878;
+    --gold-dim: #8a7556;
+    --gold-faint: #5a4830;
+    --signal-red: #c44530;
+    --signal-green: #6a8a4a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    background: var(--bg-room);
+    color: var(--gold);
+    font-family: 'Noto Sans SC', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  body {
+    background:
+      radial-gradient(ellipse at 50% 30%, #2a1f14 0%, #14100a 45%, #08060400 80%),
+      radial-gradient(ellipse at 50% 100%, #1a1208 0%, #08060400 60%),
+      var(--bg-room);
+    background-attachment: fixed;
+    padding: 32px 16px 48px;
+    position: relative;
+  }
+
+  /* room grain */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      radial-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      radial-gradient(rgba(255,255,255,0.008) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 1px;
+    pointer-events: none;
+    z-index: 1;
+    mix-blend-mode: overlay;
+  }
+
+  /* ============ TOP MARQUEE ============ */
+  .top-marquee {
+    position: relative;
+    z-index: 2;
+    max-width: 1280px;
+    margin: 0 auto 16px;
+    padding: 6px 14px;
+    border-top: 1px solid var(--gold-faint);
+    border-bottom: 1px solid var(--gold-faint);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+  .top-marquee .blink { animation: blink 1.2s steps(2) infinite; color: var(--gold); }
+  .top-marquee .dot { color: var(--signal-red); animation: pulse 1.6s ease-in-out infinite; }
+  @keyframes blink { 50% { opacity: 0.2; } }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  /* ============ TV FRAME ============ */
+  .tv-stage {
+    position: relative;
+    z-index: 2;
+    max-width: 1280px;
+    margin: 0 auto;
+    perspective: 1400px;
+  }
+
+  .tv {
+    position: relative;
+    background:
+      linear-gradient(165deg, var(--case-light) 0%, var(--case-mid) 35%, var(--case-dark) 100%);
+    border-radius: 28px 28px 18px 18px;
+    padding: 28px 28px 18px;
+    box-shadow:
+      inset 0 2px 0 rgba(255, 235, 200, 0.4),
+      inset 0 -3px 0 rgba(0, 0, 0, 0.4),
+      inset 4px 0 8px rgba(0, 0, 0, 0.15),
+      inset -4px 0 8px rgba(0, 0, 0, 0.15),
+      0 30px 60px -10px rgba(0, 0, 0, 0.7),
+      0 60px 120px -20px rgba(0, 0, 0, 0.5);
+    display: grid;
+    grid-template-columns: 1fr 130px;
+    gap: 22px;
+    align-items: stretch;
+  }
+
+  /* antennas */
+  .antennas {
+    position: absolute;
+    top: -110px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 600px;
+    height: 120px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .antennas svg { width: 100%; height: 100%; overflow: visible; }
+
+  /* wood grain overlay */
+  .tv::before {
+    content: '';
+    position: absolute; inset: 0;
+    border-radius: inherit;
+    background:
+      repeating-linear-gradient(
+        92deg,
+        transparent 0,
+        transparent 14px,
+        rgba(60, 40, 20, 0.04) 14px,
+        rgba(60, 40, 20, 0.04) 15px
+      );
+    pointer-events: none;
+    mix-blend-mode: multiply;
+  }
+
+  /* tv brand label */
+  .tv-brand {
+    position: absolute;
+    bottom: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.4em;
+    color: var(--case-shadow);
+    opacity: 0.55;
+  }
+
+  /* ============ SCREEN ============ */
+  .screen-wrap {
+    position: relative;
+    background: #000;
+    border-radius: 18px;
+    padding: 14px;
+    box-shadow:
+      inset 0 0 0 2px #1a1208,
+      inset 0 4px 12px rgba(0, 0, 0, 0.9),
+      inset 0 -4px 12px rgba(0, 0, 0, 0.9),
+      0 4px 20px rgba(0, 0, 0, 0.6);
+  }
+
+  .screen {
+    position: relative;
+    background:
+      radial-gradient(ellipse at 50% 50%, var(--screen-bg-2) 0%, var(--screen-bg) 60%, #0a0805 100%);
+    border-radius: 12px;
+    height: 760px;
+    overflow: hidden;
+    color: var(--gold);
+    isolation: isolate;
+  }
+
+  /* scanlines */
+  .screen::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0,
+      transparent 2px,
+      rgba(0, 0, 0, 0.18) 2px,
+      rgba(0, 0, 0, 0.18) 3px
+    );
+    pointer-events: none;
+    z-index: 50;
+    mix-blend-mode: multiply;
+  }
+
+  /* glare reflection */
+  .screen::after {
+    content: '';
+    position: absolute;
+    top: 4%; left: 8%;
+    width: 38%; height: 22%;
+    background: radial-gradient(ellipse at 30% 40%, rgba(255, 240, 200, 0.06), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 51;
+    filter: blur(6px);
+  }
+
+  /* vignette */
+  .screen-vignette {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, transparent 50%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none;
+    z-index: 49;
+  }
+
+  /* noise on channel switch */
+  .screen-noise {
+    position: absolute; inset: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.83 0 0 0 0 0.66 0 0 0 0 0.34 0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0;
+    z-index: 80;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+  .screen.switching .screen-noise { opacity: 0.85; animation: noise-shake 0.32s steps(4); }
+  @keyframes noise-shake {
+    0% { transform: translate(0,0); opacity: 0.95; }
+    25% { transform: translate(-2px, 1px); opacity: 0.7; }
+    50% { transform: translate(1px, -2px); opacity: 0.85; }
+    75% { transform: translate(-1px, 2px); opacity: 0.55; }
+    100% { transform: translate(0,0); opacity: 0; }
+  }
+
+  /* horizontal collapse line on switch */
+  .screen-line {
+    position: absolute;
+    left: 0; right: 0; top: 50%;
+    height: 2px;
+    background: rgba(255, 240, 200, 0.6);
+    box-shadow: 0 0 16px 4px rgba(255, 220, 170, 0.5);
+    transform: scaleY(0);
+    z-index: 81;
+    pointer-events: none;
+  }
+  .screen.switching .screen-line { animation: collapse 0.32s ease-out; }
+  @keyframes collapse {
+    0% { transform: scaleY(40); opacity: 0; }
+    30% { transform: scaleY(40); opacity: 1; }
+    100% { transform: scaleY(0); opacity: 0; }
+  }
+
+  /* ============ SCREEN CONTENT ============ */
+  .screen-inner {
+    position: relative;
+    z-index: 2;
+    padding: 32px 40px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scrollbar-width: thin;
+    scrollbar-color: var(--gold-faint) transparent;
+  }
+  .screen-inner::-webkit-scrollbar { width: 6px; }
+  .screen-inner::-webkit-scrollbar-track { background: transparent; }
+  .screen-inner::-webkit-scrollbar-thumb {
+    background: var(--gold-faint);
+    border-radius: 3px;
+  }
+  .screen-inner::-webkit-scrollbar-thumb:hover { background: var(--gold-dim); }
+
+  /* HUD top bar */
+  .hud {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    border-bottom: 1px dashed var(--gold-faint);
+    padding-bottom: 10px;
+    margin-bottom: 24px;
+  }
+  .hud .ch-id { color: var(--gold); }
+  .hud .station {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 3px 10px;
+    border: 1px solid var(--gold-faint);
+    color: var(--gold);
+    font-weight: 500;
+  }
+  .hud .station::before {
+    content: '★';
+    color: var(--gold-bright);
+    text-shadow: 0 0 8px var(--gold);
+  }
+
+  .hud-rec { display: inline-flex; align-items: center; gap: 6px; }
+  .hud-rec::before {
+    content: ''; width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--signal-red);
+    box-shadow: 0 0 8px var(--signal-red);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+
+  /* page content area */
+  .page { display: none; flex: 1; flex-direction: column; }
+  .page.active { display: flex; animation: fadeIn 0.5s ease-out 0.15s both; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); filter: blur(2px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  /* ===== HOME PAGE ===== */
+  .home {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+    padding: 30px 20px 40px;
+    position: relative;
+  }
+  .home > *:not(.home-now-playing) {
+    flex-shrink: 0;
+  }
+  .home-now-playing {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.3em;
+    color: var(--gold-faint);
+    text-transform: uppercase;
+  }
+  .home-prelude {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    margin-bottom: 28px;
+  }
+  .home-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: clamp(72px, 11vw, 132px);
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.25em;
+    text-shadow:
+      0 0 30px rgba(212, 168, 87, 0.5),
+      0 0 60px rgba(212, 168, 87, 0.25);
+    margin-right: -0.25em;
+    line-height: 1;
+  }
+  .home-name .glyph {
+    display: inline-block;
+    animation: textFlicker 6s infinite;
+  }
+  .home-name .glyph:nth-child(2) { animation-delay: 1.5s; }
+  @keyframes textFlicker {
+    0%, 96%, 100% { opacity: 1; }
+    97% { opacity: 0.7; }
+    98% { opacity: 1; }
+    99% { opacity: 0.85; }
+  }
+  .home-en {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    letter-spacing: 0.55em;
+    color: var(--gold);
+    margin: 22px 0 26px;
+    margin-right: -0.55em;
+  }
+  .home-divider {
+    width: 280px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 0 auto 26px;
+  }
+  .home-tags {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+  .home-tags span { margin: 0 6px; color: var(--gold-dim); }
+  .home-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    margin-bottom: 36px;
+  }
+
+  /* ===== PROFILE PAGE ===== */
+  .section-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.15em;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+  }
+  .section-title .en {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--gold-dim);
+    font-weight: 400;
+  }
+  .section-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold-faint);
+    margin-bottom: 28px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed var(--gold-faint);
+  }
+
+  .profile-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 36px;
+    align-items: start;
+  }
+
+  .profile-card {
+    background:
+      linear-gradient(135deg, rgba(212, 168, 87, 0.04), rgba(212, 168, 87, 0.01));
+    border: 1px solid var(--gold-faint);
+    padding: 22px 24px;
+    position: relative;
+  }
+  .profile-card::before, .profile-card::after {
+    content: ''; position: absolute;
+    width: 10px; height: 10px;
+    border: 1px solid var(--gold);
+  }
+  .profile-card::before { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+  .profile-card::after { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+  .profile-id {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    margin-bottom: 14px;
+    text-transform: uppercase;
+  }
+
+  .profile-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+    padding: 8px 0;
+    border-bottom: 1px dotted var(--gold-faint);
+    font-size: 13px;
+  }
+  .profile-row:last-of-type { border-bottom: none; }
+  .profile-row .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    padding-top: 2px;
+  }
+  .profile-row .v {
+    color: var(--gold);
+    font-weight: 400;
+  }
+  .profile-row .v.gold-strong {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--gold-bright);
+  }
+
+  .award-badge {
+    margin-top: 18px;
+    padding: 12px 14px;
+    background: linear-gradient(135deg, rgba(212, 168, 87, 0.12), rgba(212, 168, 87, 0.04));
+    border: 1px solid var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--gold-bright);
+    text-align: center;
+  }
+  .award-badge::before { content: '★ '; }
+
+  .strengths-block { display: flex; flex-direction: column; gap: 18px; }
+  .strength {
+    border-left: 2px solid var(--gold);
+    padding: 4px 0 4px 18px;
+    position: relative;
+  }
+  .strength-head {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--gold-bright);
+    letter-spacing: 0.05em;
+    margin-bottom: 6px;
+  }
+  .strength-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gold-dim);
+    margin-right: 10px;
+    letter-spacing: 0.2em;
+  }
+  .strength-body {
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: var(--gold);
+    opacity: 0.88;
+  }
+  .strength-body em {
+    font-style: normal;
+    color: var(--gold-bright);
+    background: rgba(212, 168, 87, 0.1);
+    padding: 1px 5px;
+    margin: 0 1px;
+  }
+
+  /* ===== SKILLS PAGE ===== */
+  .skills-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    margin-top: 8px;
+  }
+  .skill-block {
+    border: 1px solid var(--gold-faint);
+    padding: 20px 22px;
+    background: rgba(212, 168, 87, 0.02);
+  }
+  .skill-block-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px dashed var(--gold-faint);
+    text-transform: uppercase;
+  }
+  .skill-block-title::before {
+    content: '> ';
+    color: var(--gold);
+  }
+  .tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    padding: 5px 11px;
+    border: 1px solid var(--gold-faint);
+    color: var(--gold);
+    background: rgba(212, 168, 87, 0.03);
+    transition: all 0.25s;
+    cursor: default;
+  }
+  .tag:hover {
+    background: rgba(212, 168, 87, 0.18);
+    border-color: var(--gold);
+    color: var(--gold-bright);
+    box-shadow: 0 0 12px rgba(212, 168, 87, 0.3);
+  }
+  .tag.primary { background: rgba(212, 168, 87, 0.12); border-color: var(--gold); }
+
+  .skill-row {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 12px;
+    padding: 9px 0;
+    font-size: 12px;
+    border-bottom: 1px dotted var(--gold-faint);
+  }
+  .skill-row:last-child { border-bottom: none; }
+  .skill-row .k {
+    font-family: 'Noto Serif SC', serif;
+    color: var(--gold-bright);
+    font-weight: 500;
+  }
+  .skill-row .v {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--gold);
+    line-height: 1.7;
+  }
+
+  /* ===== PORTFOLIO PAGE ===== */
+  .portfolio-layout {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 28px;
+    flex: 1;
+    margin-top: 8px;
+  }
+
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-right: 1px dashed var(--gold-faint);
+    padding-right: 18px;
+  }
+  .project-list-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.3em;
+    color: var(--gold-faint);
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .project-item {
+    cursor: pointer;
+    padding: 10px 10px 10px 0;
+    border-bottom: 1px dotted var(--gold-faint);
+    transition: all 0.2s;
+    position: relative;
+  }
+  .project-item .pid {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.2em;
+    color: var(--gold-faint);
+    margin-bottom: 4px;
+  }
+  .project-item .ptitle {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--gold);
+    line-height: 1.4;
+  }
+  .project-item:hover .ptitle { color: var(--gold-bright); }
+  .project-item.active {
+    padding-left: 12px;
+  }
+  .project-item.active::before {
+    content: '▶';
+    position: absolute;
+    left: -2px; top: 14px;
+    color: var(--gold-bright);
+    font-size: 9px;
+    text-shadow: 0 0 8px var(--gold);
+  }
+  .project-item.active .pid { color: var(--gold); }
+  .project-item.active .ptitle { color: var(--gold-bright); }
+
+  .project-detail {
+    overflow: hidden;
+  }
+  .project-pane { display: none; animation: paneIn 0.4s ease-out; }
+  .project-pane.active { display: block; }
+  @keyframes paneIn {
+    from { opacity: 0; transform: translateX(8px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  .project-header {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--gold-faint);
+  }
+  .project-header .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 32px;
+    color: var(--gold-faint);
+    font-weight: 300;
+    line-height: 1;
+  }
+  .project-header .name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 21px;
+    font-weight: 600;
+    color: var(--gold-bright);
+    letter-spacing: 0.05em;
+    line-height: 1.3;
+  }
+
+  .proj-block { margin-bottom: 18px; }
+  .proj-label {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.3em;
+    color: var(--bg-room);
+    background: var(--gold);
+    padding: 2px 10px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .proj-label.outcome { background: var(--gold-bright); }
+  .proj-text {
+    font-size: 12.5px;
+    line-height: 1.85;
+    color: var(--gold);
+    opacity: 0.92;
+  }
+  .proj-text em {
+    font-style: normal;
+    color: var(--gold-bright);
+    border-bottom: 1px dotted var(--gold);
+  }
+  .proj-text strong {
+    color: var(--gold-bright);
+    font-weight: 600;
+  }
+
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 14px;
+  }
+  .stat {
+    border: 1px solid var(--gold-faint);
+    padding: 10px 12px;
+    text-align: center;
+    background: rgba(212, 168, 87, 0.03);
+  }
+  .stat-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    font-weight: 500;
+    color: var(--gold-bright);
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+  }
+  .stat-lbl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 8.5px;
+    letter-spacing: 0.2em;
+    color: var(--gold-dim);
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  /* ===== AI WORKS PAGE — VHS TAPE WALL ===== */
+  .vhs-room { position: relative; padding-top: 4px; }
+
+  .vhs-section-label {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 14px 0 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+  }
+  .vhs-section-label::before,
+  .vhs-section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-faint), transparent);
+  }
+  .vhs-section-label .count { color: var(--gold-dim); font-size: 9px; }
+
+  /* the wooden shelf */
+  .vhs-shelf {
+    position: relative;
+    padding: 14px 12px 18px;
+    background:
+      linear-gradient(180deg, #4a3624 0%, #3a2a1a 50%, #2a1e10 100%);
+    border: 1px solid #5a4128;
+    border-radius: 4px;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 220, 170, 0.08),
+      inset 0 -2px 0 rgba(0, 0, 0, 0.5),
+      0 4px 12px rgba(0, 0, 0, 0.5);
+    margin-bottom: 18px;
+  }
+  /* wood grain */
+  .vhs-shelf::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(
+        88deg,
+        transparent 0,
+        transparent 8px,
+        rgba(120, 80, 40, 0.07) 8px,
+        rgba(120, 80, 40, 0.07) 9px,
+        transparent 9px,
+        transparent 17px,
+        rgba(40, 25, 12, 0.12) 17px,
+        rgba(40, 25, 12, 0.12) 18px
+      );
+    pointer-events: none;
+    border-radius: inherit;
+  }
+  /* shelf bottom plank */
+  .vhs-shelf::after {
+    content: '';
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    height: 6px;
+    background: linear-gradient(180deg, #2a1e10 0%, #1a1208 100%);
+    border-top: 1px solid #5a4128;
+    border-radius: 0 0 4px 4px;
+    z-index: 1;
+  }
+
+  .vhs-row {
+    display: grid;
+    grid-template-columns: repeat(18, 1fr);
+    gap: 4px;
+    position: relative;
+    z-index: 2;
+  }
+  /* 视频架用 12 列保持视频带原宽度 */
+  .vhs-shelf:has(.tape.video) .vhs-row {
+    grid-template-columns: repeat(12, 1fr);
+  }
+
+  /* ============ TAPE — 图像录像带是侧面书脊,视频是正面 ============ */
+  .tape {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s;
+    overflow: hidden;
+    box-shadow:
+      inset 0 1px 0 rgba(255, 220, 170, 0.06),
+      inset -2px 0 4px rgba(0, 0, 0, 0.6),
+      0 6px 8px rgba(0, 0, 0, 0.4);
+    background:
+      linear-gradient(180deg, #1a1208 0%, #2a2014 6%, #1a1208 100%);
+    border: 1px solid #0a0604;
+  }
+  .tape:hover {
+    transform: translateY(-12px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 220, 170, 0.1),
+      inset -2px 0 4px rgba(0, 0, 0, 0.5),
+      0 14px 18px rgba(0, 0, 0, 0.6),
+      0 0 18px rgba(212, 168, 87, 0.18);
+  }
+
+  /* ===== 图像录像带 — 侧面/书脊视图 ===== */
+  /* 固定高度,宽度由网格自动分配,这样高度和视频带保持一致 */
+  .tape:not(.video) {
+    height: 220px;
+  }
+  .tape:not(.video) .tape-label {
+    position: absolute;
+    left: 12%; right: 12%;
+    top: 8%; bottom: 14%;
+    background: linear-gradient(180deg, #d8c89c 0%, #c8b888 50%, #b8a876 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px rgba(0, 0, 0, 0.3);
+    padding: 4px 0;
+    overflow: hidden;
+    transform: rotate(-0.3deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .tape:not(.video) .tape-label::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent 0, transparent 4px,
+      rgba(120, 90, 50, 0.06) 4px, rgba(120, 90, 50, 0.06) 5px);
+    pointer-events: none;
+  }
+  /* 顶端胶带条 */
+  .tape:not(.video) .tape-label::after {
+    content: '';
+    position: absolute;
+    top: -3px; left: 20%; right: 20%;
+    height: 5px;
+    background: rgba(255, 240, 200, 0.2);
+    border: 1px solid rgba(255, 240, 200, 0.35);
+    border-top: none;
+  }
+  /* PID 横排在最顶端 */
+  .tape:not(.video) .tape-label .pid {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6px;
+    letter-spacing: 0.1em;
+    color: #6a4828;
+    text-transform: uppercase;
+    writing-mode: horizontal-tb;
+    margin-top: 2px;
+  }
+  /* 标题竖排,中文写感最好 */
+  .tape:not(.video) .tape-label .ttl {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: #3a2810;
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    letter-spacing: 0.08em;
+    line-height: 1.05;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 100%;
+    overflow: hidden;
+  }
+  /* 关键词隐藏(在 placeholder 阶段不显示,真实素材也只显示标题) */
+  .tape:not(.video) .tape-label .kw { display: none; }
+
+  /* 顶端铜条 */
+  .tape:not(.video)::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(180deg,
+      rgba(212, 168, 87, 0.6) 0%,
+      rgba(140, 100, 50, 0.4) 50%,
+      rgba(40, 25, 12, 0.8) 100%);
+    z-index: 2;
+  }
+  /* 底端磁带槽 */
+  .tape:not(.video)::after {
+    content: '';
+    position: absolute;
+    left: 12%; right: 12%;
+    bottom: 4%;
+    height: 8%;
+    background: linear-gradient(180deg, #0a0604 0%, #1a1208 100%);
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    z-index: 1;
+  }
+  /* VOL 编号竖在底端 */
+  .tape:not(.video) .tape-index {
+    position: absolute;
+    bottom: 16%;
+    left: 50%;
+    transform: translateX(-50%);
+    writing-mode: horizontal-tb;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 5.5px;
+    letter-spacing: 0.15em;
+    color: var(--gold-dim);
+    z-index: 3;
+    white-space: nowrap;
+  }
+
+  /* ===== 视频录像带 — 正面视图 ===== */
+  .tape.video {
+    height: 220px;
+    grid-column: span 2; /* 占两个格子,大致等于上一稿宽度 */
+    background: linear-gradient(180deg,
+      #1a1208 0%, #2a2014 4%, #1a1208 6%, #2a2014 100%);
+    border-radius: 2px 2px 0 0;
+  }
+  .tape.video .tape-label {
+    position: absolute;
+    left: 6%; right: 6%;
+    top: 14%;
+    height: 56%;
+    background: linear-gradient(180deg, #d8a89c 0%, #c89888 50%, #b88876 100%);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.4),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px rgba(0, 0, 0, 0.3);
+    padding: 6px 5px 4px;
+    overflow: hidden;
+    transform: rotate(-0.4deg);
+  }
+  .tape.video .tape-label::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent 0, transparent 4px,
+      rgba(120, 90, 50, 0.06) 4px, rgba(120, 90, 50, 0.06) 5px);
+    pointer-events: none;
+  }
+  .tape.video .tape-label::after {
+    content: '';
+    position: absolute;
+    top: -4px; left: 30%;
+    width: 40%; height: 6px;
+    background: rgba(255, 240, 200, 0.25);
+    border: 1px solid rgba(255, 240, 200, 0.4);
+    border-top: none;
+  }
+  .tape.video .tape-label .pid {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.12em;
+    color: #6a4828;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .tape.video .tape-label .ttl {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 9.5px;
+    font-weight: 600;
+    color: #3a2810;
+    line-height: 1.25;
+    margin-bottom: 3px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .tape.video .tape-label .kw {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 6.5px;
+    letter-spacing: 0.08em;
+    color: #6a4828;
+    line-height: 1.4;
+    text-transform: uppercase;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  /* 红色顶条 */
+  .tape.video::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(180deg,
+      rgba(196, 69, 48, 0.7) 0%,
+      rgba(140, 50, 35, 0.5) 50%,
+      rgba(40, 15, 10, 0.8) 100%);
+    z-index: 2;
+  }
+  /* 底部磁带仓 */
+  .tape.video::after {
+    content: '';
+    position: absolute;
+    left: 8%; right: 8%;
+    bottom: 7%;
+    height: 22%;
+    background: linear-gradient(180deg, #0a0604 0%, #1a1208 30%, #0a0604 100%);
+    border: 1px solid rgba(0, 0, 0, 0.7);
+    border-radius: 1px;
+    z-index: 1;
+  }
+  .tape.video .tape-index {
+    position: absolute;
+    left: 0;
+    bottom: 30%;
+    transform: rotate(-90deg);
+    transform-origin: left bottom;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    padding-left: 8px;
+    white-space: nowrap;
+    z-index: 3;
+  }
+  .tape-badge {
+    position: absolute;
+    bottom: 5px; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 7px;
+    letter-spacing: 0.2em;
+    color: var(--gold-bright);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 2px 6px;
+    border: 1px solid var(--gold);
+    z-index: 3;
+    text-transform: uppercase;
+  }
+
+  /* placeholder 状态 */
+  .tape.placeholder .tape-label {
+    opacity: 0.6;
+  }
+
+
+  /* ============ VHS PLAYER MODAL ============ */
+  .vhs-player {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.94);
+    z-index: 9999;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+  .vhs-player.active { display: flex; }
+
+  .vhs-player-shell {
+    position: relative;
+    width: min(92vw, 1100px);
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    animation: tapeFlyIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  @keyframes tapeFlyIn {
+    0%   { opacity: 0; transform: scale(0.3) translateY(40vh); filter: blur(6px); }
+    60%  { opacity: 1; transform: scale(1.04); filter: blur(0); }
+    100% { transform: scale(1); }
+  }
+
+  .vhs-player-screen {
+    position: relative;
+    background: #0a0604;
+    border: 1px solid var(--gold);
+    box-shadow:
+      0 0 50px rgba(212, 168, 87, 0.25),
+      inset 0 0 80px rgba(0, 0, 0, 0.7);
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+  .vhs-player-screen img,
+  .vhs-player-screen video {
+    width: 100%; height: 100%;
+    object-fit: contain;
+    background: #0a0604;
+  }
+  #vhsMedia {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* scanlines on player */
+  .vhs-player-screen::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent 0, transparent 2px,
+      rgba(0,0,0,0.18) 2px, rgba(0,0,0,0.18) 3px
+    );
+    pointer-events: none;
+    z-index: 5;
+  }
+  /* glare */
+  .vhs-player-screen::after {
+    content: '';
+    position: absolute;
+    top: 4%; left: 8%;
+    width: 38%; height: 22%;
+    background: radial-gradient(ellipse at 30% 40%, rgba(255,240,200,0.05), transparent 70%);
+    border-radius: 50%;
+    z-index: 5;
+    pointer-events: none;
+  }
+
+  /* burn-in static when entering */
+  .vhs-player-screen .burn-in {
+    position: absolute; inset: 0;
+    z-index: 6;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='1.5' numOctaves='2' stitchTiles='stitch' seed='3'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.95 0 0 0 0 0.95 0 0 0 1.4 -0.3'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 280px 280px;
+    mix-blend-mode: screen;
+    animation: burnInFade 0.6s ease-out forwards;
+    pointer-events: none;
+  }
+  @keyframes burnInFade {
+    0%   { opacity: 1; }
+    50%  { opacity: 0.6; }
+    100% { opacity: 0; }
+  }
+
+  .vhs-player-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 16px;
+    background: rgba(26, 18, 8, 0.85);
+    border: 1px solid var(--gold-faint);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.22em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+  }
+  .vhs-player-bar .now-playing {
+    color: var(--gold-bright);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .vhs-player-bar .now-playing::before {
+    content: '▶';
+    color: var(--signal-red);
+    animation: pulse 1.6s ease-in-out infinite;
+  }
+  .vhs-player-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 14px 18px;
+    background: rgba(26, 18, 8, 0.9);
+    border: 1px solid var(--gold-faint);
+    gap: 20px;
+  }
+  .vhs-player-meta .left .pid {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+    margin-bottom: 4px;
+  }
+  .vhs-player-meta .left .ttl {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--gold-bright);
+    letter-spacing: 0.05em;
+  }
+  .vhs-player-meta .right {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: var(--gold);
+    text-align: right;
+    line-height: 1.7;
+  }
+
+  .vhs-player-close {
+    position: absolute;
+    top: -38px; right: 0;
+    background: transparent;
+    border: 1px solid var(--gold-faint);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    padding: 6px 14px;
+    cursor: pointer;
+  }
+  .vhs-player-close:hover { border-color: var(--gold); color: var(--gold-bright); }
+
+  /* nav prev/next */
+  .vhs-nav-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(26, 18, 8, 0.85);
+    border: 1px solid var(--gold-faint);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    width: 40px; height: 40px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: all 0.2s;
+  }
+  .vhs-nav-btn:hover { border-color: var(--gold); color: var(--gold-bright); background: rgba(212,168,87,0.12); }
+  .vhs-nav-btn.prev { left: -56px; }
+  .vhs-nav-btn.next { right: -56px; }
+
+  @media (max-width: 920px) {
+    .vhs-row { grid-template-columns: repeat(8, 1fr); gap: 3px; }
+    .vhs-nav-btn.prev { left: 4px; }
+    .vhs-nav-btn.next { right: 4px; }
+  }
+
+  /* ===== ARCHIVE PAGE (de-saturated) ===== */
+  .archive {
+    filter: grayscale(0.65) contrast(0.9) brightness(0.9);
+  }
+  .archive::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent 0, transparent 2px,
+      rgba(255,255,255,0.02) 2px, rgba(255,255,255,0.02) 4px
+    );
+    pointer-events: none;
+  }
+  .archive-banner {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    border: 1px dashed var(--gold-faint);
+    padding: 4px 14px;
+    margin-bottom: 18px;
+  }
+  .arch-job {
+    border-left: 2px solid var(--gold-faint);
+    padding-left: 18px;
+    margin-bottom: 26px;
+  }
+  .arch-job-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+  .arch-company {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--gold-bright);
+  }
+  .arch-role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+  }
+  .arch-period {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    color: var(--gold-dim);
+    letter-spacing: 0.15em;
+  }
+  .arch-desc {
+    font-size: 12px;
+    line-height: 1.85;
+    color: var(--gold);
+    opacity: 0.85;
+    margin-top: 10px;
+  }
+  .arch-projects {
+    margin-top: 14px;
+    display: grid;
+    gap: 14px;
+  }
+
+  /* 亚克力磁带 — 形态保留,壳改成半透明亚克力 */
+  .arch-proj {
+    position: relative;
+    padding: 14px 18px 14px 24px;
+    background:
+      linear-gradient(135deg,
+        rgba(255, 235, 200, 0.10) 0%,
+        rgba(212, 168, 87, 0.06) 50%,
+        rgba(255, 235, 200, 0.04) 100%);
+    border: 1px solid rgba(212, 168, 87, 0.25);
+    border-radius: 4px;
+    backdrop-filter: blur(14px) saturate(1.4);
+    -webkit-backdrop-filter: blur(14px) saturate(1.4);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 240, 200, 0.18),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+      0 6px 14px rgba(0, 0, 0, 0.4),
+      0 1px 0 rgba(255, 240, 200, 0.04);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .arch-proj:nth-child(odd)  { transform: rotate(-0.4deg); }
+  .arch-proj:nth-child(even) { transform: rotate(0.5deg); }
+  .arch-proj:hover {
+    transform: rotate(0deg) translateY(-3px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 240, 200, 0.25),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+      0 12px 22px rgba(0, 0, 0, 0.5),
+      0 0 26px rgba(212, 168, 87, 0.12);
+  }
+
+  /* 顶端金属边(保留,但改为更清亮的反光) */
+  .arch-proj::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; right: 0;
+    height: 5px;
+    background: linear-gradient(180deg,
+      rgba(240, 200, 120, 0.7) 0%,
+      rgba(212, 168, 87, 0.5) 40%,
+      rgba(60, 45, 25, 0.4) 100%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    z-index: 1;
+  }
+
+  /* 右侧磁带仓窗(透过亚克力壳能看到两个轮子) */
+  .arch-proj::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 88px;
+    height: 36px;
+    background:
+      radial-gradient(circle at 22% 50%, #2a1f14 0 9px, #1a1208 9px 11px, #3a2a1a 11px 13px, transparent 13px),
+      radial-gradient(circle at 78% 50%, #2a1f14 0 9px, #1a1208 9px 11px, #3a2a1a 11px 13px, transparent 13px),
+      linear-gradient(180deg, rgba(10, 8, 4, 0.85) 0%, rgba(26, 18, 8, 0.85) 50%, rgba(10, 8, 4, 0.85) 100%);
+    border: 1px solid rgba(0, 0, 0, 0.55);
+    border-radius: 2px;
+    box-shadow:
+      inset 0 1px 2px rgba(0, 0, 0, 0.7),
+      inset 0 -1px 0 rgba(255, 200, 130, 0.05);
+    z-index: 1;
+  }
+
+  /* 文字标签 */
+  .arch-proj-name {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 13px;
+    color: var(--gold-bright);
+    font-weight: 600;
+    margin-bottom: 4px;
+    margin-right: 110px; /* 给右侧磁带仓让位 */
+    letter-spacing: 0.02em;
+    position: relative;
+    z-index: 2;
+  }
+  .arch-proj-desc {
+    font-size: 11.5px;
+    line-height: 1.7;
+    color: var(--gold);
+    opacity: 0.88;
+    margin-right: 110px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ===== CONTACT PAGE ===== */
+  .contact {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex: 1;
+  }
+  .contact-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 56px;
+    color: var(--gold);
+    letter-spacing: 0.3em;
+    margin-right: -0.3em;
+    margin-bottom: 8px;
+    text-shadow: 0 0 20px rgba(212, 168, 87, 0.4);
+  }
+  .contact-en {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.5em;
+    color: var(--gold-dim);
+    margin-bottom: 40px;
+    margin-right: -0.5em;
+  }
+  .contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 40px;
+  }
+  .contact-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 18px;
+    align-items: center;
+    padding: 12px 24px;
+    border: 1px solid var(--gold-faint);
+    min-width: 380px;
+    text-align: left;
+    transition: all 0.25s;
+  }
+  .contact-item:hover {
+    border-color: var(--gold);
+    background: rgba(212, 168, 87, 0.05);
+    box-shadow: 0 0 20px rgba(212, 168, 87, 0.15);
+  }
+  .contact-item .k {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold-dim);
+  }
+  .contact-item .v {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--gold-bright);
+    letter-spacing: 0.05em;
+  }
+  .contact-end {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    color: var(--gold-faint);
+  }
+  .contact-end::before, .contact-end::after { content: ' — '; }
+
+  /* ============ CONTROL PANEL ============ */
+  .controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 18px;
+    padding: 6px 0;
+  }
+
+  .knob-group { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .knob {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 35% 30%, #2a2014 0%, #1a1208 60%, #0a0604 100%);
+    box-shadow:
+      inset 0 2px 6px rgba(255, 255, 255, 0.08),
+      inset 0 -3px 8px rgba(0, 0, 0, 0.6),
+      0 4px 8px rgba(0, 0, 0, 0.5),
+      0 0 0 2px rgba(0, 0, 0, 0.3);
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  .knob::before {
+    content: '';
+    position: absolute;
+    inset: 8px;
+    border-radius: 50%;
+    background:
+      conic-gradient(from 0deg, #1a1208, #2a2014, #1a1208, #2a2014, #1a1208);
+  }
+  .knob::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 4px;
+    height: 14px;
+    background: var(--gold-bright);
+    border-radius: 2px;
+    transform: translateX(-50%);
+    box-shadow: 0 0 8px var(--gold);
+  }
+  .knob:hover { filter: brightness(1.1); }
+  .knob:active { transform: scale(0.95); }
+  .knob-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--case-shadow);
+    font-weight: 500;
+  }
+
+  .knob.ch[data-pos="0"] { transform: rotate(-60deg); }
+  .knob.ch[data-pos="1"] { transform: rotate(-30deg); }
+  .knob.ch[data-pos="2"] { transform: rotate(0deg); }
+  .knob.ch[data-pos="3"] { transform: rotate(30deg); }
+  .knob.ch[data-pos="4"] { transform: rotate(60deg); }
+  .knob.ch[data-pos="5"] { transform: rotate(90deg); }
+
+  .led-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .led-bar {
+    width: 36px;
+    height: 14px;
+    background: linear-gradient(90deg, #1a1208, #2a2014);
+    border-radius: 2px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.6);
+  }
+  .led-bar::before {
+    content: '';
+    position: absolute;
+    left: 3px;
+    top: 50%;
+    width: 8px;
+    height: 6px;
+    background: var(--gold-bright);
+    box-shadow: 0 0 6px var(--gold);
+    transform: translateY(-50%);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  .tune-row { display: flex; gap: 5px; }
+  .tune-led {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: #1a1208;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.6);
+  }
+  .tune-led.on {
+    background: var(--signal-green);
+    box-shadow: 0 0 6px var(--signal-green);
+  }
+
+  .speaker-vent {
+    width: 90px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--case-mid), var(--case-dark));
+    border-radius: 3px;
+    margin-top: 8px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.4), inset 0 -1px 1px rgba(255,255,255,0.1);
+  }
+  .speaker-vent::before {
+    content: '';
+    position: absolute; inset: 4px;
+    background: repeating-linear-gradient(
+      0deg, transparent 0, transparent 2px,
+      rgba(0,0,0,0.4) 2px, rgba(0,0,0,0.4) 3px
+    );
+  }
+
+  /* ============ NAV STRIP ============ */
+  .nav-strip {
+    max-width: 1280px;
+    margin: 18px auto 0;
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    padding: 8px;
+    border-top: 1px solid var(--gold-faint);
+    position: relative;
+    z-index: 2;
+  }
+  .nav-btn {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid var(--gold-faint);
+    color: var(--gold-dim);
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .nav-btn:hover {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  .nav-btn.active {
+    color: var(--bg-room);
+    background: var(--gold);
+    border-color: var(--gold);
+  }
+
+  /* ============ FOOTER ============ */
+  .foot {
+    max-width: 1280px;
+    margin: 16px auto 0;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9.5px;
+    letter-spacing: 0.22em;
+    color: var(--gold-faint);
+    border-top: 1px solid var(--gold-faint);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ============ POWER ON ANIMATION (NO SIGNAL → LOCKED) ============ */
+  /* fullscreen static overlay shown briefly on power-on */
+  .static-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 90;
+    pointer-events: none;
+    opacity: 0;
+    background-image:
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='1.4' numOctaves='3' stitchTiles='stitch' seed='5'/><feColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.95 0 0 0 0 0.95 0 0 0 1.5 -0.2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    background-size: 320px 320px;
+    mix-blend-mode: screen;
+  }
+  .static-overlay::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: inherit;
+    background-size: 220px 220px;
+    background-position: 50px 80px;
+    opacity: 0.7;
+    mix-blend-mode: screen;
+    animation: staticShift 0.06s steps(1) infinite;
+  }
+  .static-overlay::after {
+    content: '— NO SIGNAL —\A     PLEASE STAND BY';
+    white-space: pre;
+    position: absolute;
+    top: 18%; left: 50%;
+    transform: translateX(-50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.35em;
+    color: var(--gold);
+    background: rgba(0,0,0,0.55);
+    padding: 10px 22px;
+    border: 1px solid var(--gold-faint);
+    text-align: center;
+    line-height: 1.8;
+    text-shadow: 0 0 8px var(--gold);
+  }
+  @keyframes staticShift {
+    0%   { background-position: 0 0; }
+    20%  { background-position: 30px 60px; }
+    40%  { background-position: 80px -40px; }
+    60%  { background-position: -50px 100px; }
+    80%  { background-position: 120px 30px; }
+    100% { background-position: 0 0; }
+  }
+
+  /* horizontal rolling tracking band */
+  .tracking-band {
+    position: absolute;
+    left: 0; right: 0;
+    height: 24px;
+    background: linear-gradient(0deg,
+      transparent 0%,
+      rgba(0,0,0,0.5) 20%,
+      rgba(255,255,255,0.08) 50%,
+      rgba(0,0,0,0.5) 80%,
+      transparent 100%);
+    z-index: 91;
+    pointer-events: none;
+    opacity: 0;
+    mix-blend-mode: overlay;
+    top: -30px;
+  }
+
+  /* color-bar test pattern (briefly flashes) */
+  .color-bars {
+    position: absolute;
+    left: 50%;
+    bottom: 28%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 2px;
+    opacity: 0;
+    z-index: 92;
+    pointer-events: none;
+  }
+  .color-bars span {
+    width: 14px; height: 22px;
+    box-shadow: 0 0 10px currentColor;
+  }
+  .color-bars span:nth-child(1) { background: #d4a857; color: #d4a857; }
+  .color-bars span:nth-child(2) { background: #c44530; color: #c44530; }
+  .color-bars span:nth-child(3) { background: #6a8a4a; color: #6a8a4a; }
+  .color-bars span:nth-child(4) { background: #4a7a8a; color: #4a7a8a; }
+  .color-bars span:nth-child(5) { background: #d4a857; color: #d4a857; }
+  .color-bars span:nth-child(6) { background: #1a1208; color: #fff; }
+
+  /* the orchestrated power-on sequence */
+  .power-on .static-overlay { animation: staticPlay 2.4s ease-out both; }
+  .power-on .tracking-band { animation: trackingRoll 2.4s linear both; }
+  .power-on .color-bars { animation: colorBarsFlash 2.4s ease-out both; }
+  .power-on .screen-inner { animation: lockSignal 2.4s ease-out both; }
+
+  @keyframes staticPlay {
+    0%   { opacity: 0; }
+    5%   { opacity: 1; }
+    65%  { opacity: 1; }
+    78%  { opacity: 0.4; }
+    88%  { opacity: 0.15; }
+    100% { opacity: 0; }
+  }
+  @keyframes trackingRoll {
+    0%   { opacity: 0; top: -40px; }
+    10%  { opacity: 0.9; top: 10%; }
+    35%  { opacity: 0.9; top: 60%; }
+    55%  { opacity: 0.9; top: 30%; }
+    75%  { opacity: 0.7; top: 80%; }
+    90%  { opacity: 0; top: 100%; }
+    100% { opacity: 0; top: 100%; }
+  }
+  @keyframes colorBarsFlash {
+    0%, 65%   { opacity: 0; transform: translateX(-50%) scaleY(1); }
+    70%       { opacity: 1; transform: translateX(-50%) scaleY(1); }
+    78%       { opacity: 1; transform: translateX(-50%) scaleY(1.05); }
+    85%       { opacity: 0; transform: translateX(-50%) scaleY(0.05); }
+    100%      { opacity: 0; }
+  }
+  @keyframes lockSignal {
+    0%, 70%   { opacity: 0; filter: brightness(2.5) contrast(0.4) blur(2px); transform: translateY(4px); }
+    80%       { opacity: 0.4; filter: brightness(1.6) contrast(0.7); transform: translateY(2px); }
+    90%       { opacity: 0.85; filter: brightness(1.1); transform: translateY(0); }
+    100%      { opacity: 1; filter: brightness(1); transform: translateY(0); }
+  }
+
+  /* ============ POWER GATE OVERLAY ============ */
+  .power-gate {
+    position: fixed; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, #1a1208 0%, #050402 100%);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 22px;
+    cursor: pointer;
+    transition: opacity 0.6s ease, visibility 0.6s ease;
+  }
+  .power-gate.gone { opacity: 0; visibility: hidden; pointer-events: none; }
+  .power-gate::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, transparent 0, transparent 2px, rgba(0,0,0,0.3) 2px, rgba(0,0,0,0.3) 3px);
+    pointer-events: none;
+  }
+  .power-btn {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 30%, #4a3820 0%, #2a2014 60%, #0a0604 100%);
+    border: 2px solid var(--gold-faint);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.3em;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow:
+      0 0 0 8px rgba(212, 168, 87, 0.05),
+      0 0 30px rgba(212, 168, 87, 0.2),
+      inset 0 4px 12px rgba(0,0,0,0.6);
+    animation: powerPulse 2.5s ease-in-out infinite;
+    position: relative;
+    z-index: 1;
+  }
+  @keyframes powerPulse {
+    0%, 100% { box-shadow: 0 0 0 8px rgba(212, 168, 87, 0.05), 0 0 30px rgba(212, 168, 87, 0.2), inset 0 4px 12px rgba(0,0,0,0.6); }
+    50% { box-shadow: 0 0 0 12px rgba(212, 168, 87, 0.1), 0 0 50px rgba(212, 168, 87, 0.4), inset 0 4px 12px rgba(0,0,0,0.6); }
+  }
+  .power-btn:hover {
+    color: var(--gold-bright);
+    border-color: var(--gold);
+    transform: scale(1.05);
+  }
+  .power-btn-icon {
+    font-size: 32px;
+    color: var(--gold-bright);
+    text-shadow: 0 0 12px var(--gold);
+  }
+  .power-gate-text {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.4em;
+    color: var(--gold-dim);
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+  }
+  .power-gate-hint {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    color: var(--gold-faint);
+    position: relative;
+    z-index: 1;
+    margin-top: 4px;
+  }
+
+  /* ============ AUDIO CONTROL ============ */
+  .audio-ctrl {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 100;
+    background: rgba(26, 18, 8, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--gold-faint);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    padding: 8px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+  .audio-ctrl:hover { border-color: var(--gold); color: var(--gold-bright); }
+  .audio-ctrl .audio-bars {
+    display: inline-flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 12px;
+  }
+  .audio-ctrl .audio-bars span {
+    width: 2px;
+    background: var(--gold);
+    border-radius: 1px;
+    animation: audiowave 1s ease-in-out infinite;
+  }
+  .audio-ctrl .audio-bars span:nth-child(1) { height: 60%; animation-delay: 0s; }
+  .audio-ctrl .audio-bars span:nth-child(2) { height: 100%; animation-delay: 0.15s; }
+  .audio-ctrl .audio-bars span:nth-child(3) { height: 70%; animation-delay: 0.3s; }
+  .audio-ctrl .audio-bars span:nth-child(4) { height: 40%; animation-delay: 0.45s; }
+  @keyframes audiowave {
+    0%, 100% { transform: scaleY(0.5); }
+    50% { transform: scaleY(1); }
+  }
+  .audio-ctrl.muted .audio-bars span { animation: none; transform: scaleY(0.4); opacity: 0.4; }
+
+  /* dynamic vol-knob rotation */
+  .knob.vol[data-pos="0"] { transform: rotate(-60deg); }
+  .knob.vol[data-pos="1"] { transform: rotate(-20deg); }
+  .knob.vol[data-pos="2"] { transform: rotate(30deg); }
+  .knob.vol[data-pos="3"] { transform: rotate(80deg); }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 920px) {
+    body { padding: 16px 10px 32px; }
+    .tv {
+      grid-template-columns: 1fr;
+      padding: 18px;
+      border-radius: 18px;
+    }
+    .controls {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      order: 2;
+    }
+    .speaker-vent { display: none; }
+    .knob { width: 56px; height: 56px; }
+    .antennas { display: none; }
+    .screen-inner { padding: 18px; }
+    .screen { height: 600px; }
+    .profile-grid, .skills-wrap { grid-template-columns: 1fr; }
+    .portfolio-layout { grid-template-columns: 1fr; }
+    .project-list {
+      flex-direction: row;
+      overflow-x: auto;
+      border-right: none;
+      border-bottom: 1px dashed var(--gold-faint);
+      padding-right: 0;
+      padding-bottom: 12px;
+    }
+    .project-item { min-width: 140px; flex-shrink: 0; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr); }
+    .home-name { font-size: 64px; }
+    .contact-title { font-size: 40px; }
+    .contact-item { min-width: 0; width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- POWER GATE -->
+<div class="power-gate gone" id="powerGate">
+  <div class="power-btn" id="powerBtn">
+    <span class="power-btn-icon">⏻</span>
+  </div>
+  <div class="power-gate-text">POWER ON · 通电</div>
+  <div class="power-gate-hint">CLICK TO START · 点击开机</div>
+</div>
+
+<!-- AUDIO CONTROL -->
+<div class="audio-ctrl" id="audioCtrl" style="display: flex;">
+  <div class="audio-bars"><span></span><span></span><span></span><span></span></div>
+  <span id="audioCtrlLabel">AUDIO ON</span>
+</div>
+
+<!-- TOP MARQUEE -->
+<div class="top-marquee">
+  <div><span class="dot">●</span> ON AIR &nbsp; · &nbsp; CHEN HONG · BROADCAST</div>
+  <div><span class="blink">▮</span> 2026 / SIGNAL OK · 1080i</div>
+</div>
+
+<!-- TV -->
+<div class="tv-stage">
+  <div class="antennas">
+    <svg viewBox="0 0 600 120" preserveAspectRatio="none">
+      <line x1="180" y1="118" x2="80" y2="20" stroke="#6e5a3e" stroke-width="3" stroke-linecap="round"></line>
+      <line x1="420" y1="118" x2="520" y2="20" stroke="#6e5a3e" stroke-width="3" stroke-linecap="round"></line>
+      <circle cx="80" cy="20" r="6" fill="#a89274"></circle>
+      <circle cx="520" cy="20" r="6" fill="#a89274"></circle>
+      <circle cx="180" cy="118" r="9" fill="#6e5a3e"></circle>
+      <circle cx="420" cy="118" r="9" fill="#6e5a3e"></circle>
+    </svg>
+  </div>
+
+  <div class="tv" id="tv">
+
+    <!-- SCREEN -->
+    <div class="screen-wrap">
+      <div class="screen" id="screen">
+        <div class="screen-vignette"></div>
+        <div class="screen-noise"></div>
+        <div class="screen-line"></div>
+        <div class="static-overlay"></div>
+        <div class="tracking-band"></div>
+        <div class="color-bars"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+        <div class="screen-inner">
+
+          <!-- HUD -->
+          <div class="hud">
+            <span class="ch-id" id="hud-ch">CH.04 — AI WORKS</span>
+            <span class="station">CHEN · HONG · BROADCAST</span>
+            <span class="hud-rec">REC · 12:22:00</span>
+          </div>
+
+          <!-- ===== PAGE: HOME ===== -->
+          <div class="page home" data-page="0">
+            <div class="home-prelude">CH. 01 — SIGNAL IN</div>
+            <div class="home-name">
+              <span class="glyph">陈</span>&nbsp;&nbsp;<span class="glyph">虹</span>
+            </div>
+            <div class="home-en">CHEN&nbsp;&nbsp;HONG</div>
+            <div class="home-divider"></div>
+            <div class="home-tags">AI TRAINER<span>·</span>VLM<span>·</span>RAG<span>·</span>AGENT DATA</div>
+            <div class="home-period">— WORKS · 2024 / 2026 —</div>
+            <div class="home-now-playing">▮ NOW PLAYING — TURN THE [CH] KNOB OR USE BOTTOM NAV ▮</div>
+          </div>
+
+          <!-- ===== PAGE: PROFILE ===== -->
+          <div class="page" data-page="1">
+            <h1 class="section-title">关于我 <span class="en">// PROFILE · CH.02</span></h1>
+            <div class="section-sub">25 YEARS · HANGZHOU · 统招本科 · 环境设计 · 到岗时间 1 周内</div>
+
+            <div class="profile-grid">
+              <div>
+                <div class="profile-card">
+                  <div class="profile-id">CARD ID — CH-2026-04</div>
+                  <div class="profile-row"><span class="k">Name</span><span class="v gold-strong">陈虹 · CHEN HONG</span></div>
+                  <div class="profile-row"><span class="k">Position</span><span class="v">AI 训练师</span></div>
+                  <div class="profile-row"><span class="k">Education</span><span class="v">统招本科 · 环境设计</span></div>
+                  <div class="profile-row"><span class="k">Available</span><span class="v">到岗时间 1 周内</span></div>
+                  <div class="profile-row"><span class="k">Tel</span><span class="v">157-2788-1571</span></div>
+                  <div class="profile-row"><span class="k">Mail</span><span class="v">894249452@qq.com</span></div>
+                </div>
+                <div class="award-badge">2025 · 公司年度「数据之星」</div>
+              </div>
+
+              <div class="strengths-block">
+                <div class="profile-id" style="margin-bottom: 4px;">PERSONAL EDGE / 个人优势</div>
+                <div class="strength">
+                  <div class="strength-head"><span class="num">01</span>多模态认知与审美量化</div>
+                  <div class="strength-body">
+                    凭借设计专业背景,擅长将模糊的"审美、透视、空间逻辑"转化为<em>模型可理解的多维量化标准</em>。曾主导 VLM 模型从 <em>V1.5 → V2.0</em> 的迭代,助力空间场景识别率提升。
+                  </div>
+                </div>
+                <div class="strength">
+                  <div class="strength-head"><span class="num">02</span>全流程管理</div>
+                  <div class="strength-body">
+                    精通数据生产全流程管理,主导「需求-培训-标注-质检-验收」全流程,主导多维度评测体系设计,并行管理 <em>10 人 + 8 人</em> 两个项目团队,独创设计专业培训课赋能非设计背景标注员。
+                  </div>
+                </div>
+                <div class="strength">
+                  <div class="strength-head"><span class="num">03</span>高效工具链驱动</div>
+                  <div class="strength-body">
+                    持续关注可灵、即梦、Midjourney 等前沿模型,熟练运用 <em>trae、Cursor</em> 搭建自动化工作流。
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top: 24px;">
+              <div class="profile-id" style="margin-bottom: 12px;">CORE TAGS / 核心能力</div>
+              <div class="tag-cloud">
+                <span class="tag primary">AI 数据标注体系构建</span>
+                <span class="tag primary">大模型评测优化</span>
+                <span class="tag">RAG + Agent 数据建设</span>
+                <span class="tag">全流程质量管控</span>
+                <span class="tag">跨团队资源整合</span>
+                <span class="tag">自动化工具链搭建</span>
+                <span class="tag">多项目并行管理</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PAGE: PORTFOLIO ===== -->
+          <div class="page" data-page="2">
+            <h1 class="section-title">项目作品 <span class="en">// PORTFOLIO · CH.03</span></h1>
+            <div class="section-sub">杭州巨尚传媒科技 · AI 训练师 · 2024.05 — 2026.04</div>
+
+            <div class="portfolio-layout">
+              <div class="project-list">
+                <div class="project-list-title">▶ 节目单 / Programs</div>
+                <div class="project-item active" data-proj="0">
+                  <div class="pid">P.01</div>
+                  <div class="ptitle">VLM 评测体系建设</div>
+                </div>
+                <div class="project-item" data-proj="1">
+                  <div class="pid">P.02</div>
+                  <div class="ptitle">VLM SFT 训练数据建设</div>
+                </div>
+                <div class="project-item" data-proj="2">
+                  <div class="pid">P.03</div>
+                  <div class="ptitle">Agent 方案生成数据</div>
+                </div>
+                <div class="project-item" data-proj="3">
+                  <div class="pid">P.04</div>
+                  <div class="ptitle">数据自动化生产工作流</div>
+                </div>
+              </div>
+
+              <div class="project-detail">
+
+                <div class="project-pane active" data-proj="0">
+                  <div class="project-header">
+                    <span class="num">P.01</span>
+                    <span class="name">多模态大模型 VLM 评测体系建设</span>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label">背景 / Background</div>
+                    <div class="proj-text">
+                      生图模型链路采用 <em>"VLM + 扩散生成"</em> 双模块架构,端到端评测发现生图效果不及预期。链路归因排查 —— 分别对 VLM 独立理解能力和扩散模型生成质量做分模块评测,为支撑 <strong>VLM V1.5 → V2.0</strong> 月度迭代,主导搭建系统化 VLM 独立评测体系。
+                    </div>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label">核心职责 / Role</div>
+                    <div class="proj-text">
+                      主导<em>「视觉属性理解 + 视觉属性描述」</em>2 大方向 × 子维度评测体系搭建,核心覆盖物体属性、表观属性、空间属性、环境属性、结构化视觉属性描述等高频诉求维度;根据自有素材库和公开数据集以及难度分层原则建设 <strong>500+ 条评测集样本</strong>,配置定制化 0–3 分打分细则 + 具体扣分原因;设计<em>"自检 + 交叉复标 + 抽检"</em>三层质检流程,交叉一致性持续优化至业务可用水平。
+                    </div>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label outcome">成果 / Outcome</div>
+                    <div class="proj-text">评测体系持续支撑模型月度迭代,成为团队判断数据优化方向的参考依据。</div>
+                    <div class="stat-grid">
+                      <div class="stat"><div class="stat-num">2 × N</div><div class="stat-lbl">评测维度</div></div>
+                      <div class="stat"><div class="stat-num">500+</div><div class="stat-lbl">评测样本</div></div>
+                      <div class="stat"><div class="stat-num">0—3</div><div class="stat-lbl">打分粒度</div></div>
+                      <div class="stat"><div class="stat-num">3 层</div><div class="stat-lbl">质检流程</div></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="project-pane" data-proj="1">
+                  <div class="project-header">
+                    <span class="num">P.02</span>
+                    <span class="name">多模态 VLM 的 SFT 训练数据建设</span>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label">背景 / Background</div>
+                    <div class="proj-text">
+                      通过 SFT 数据建设,让 VLM 对图片的<em>"氛围 / 光影 / 材质"</em>产出可结构化、可被下游扩散模型使用的细粒度描述,最终提升图像生成质量。
+                    </div>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label">核心职责 / Role</div>
+                    <div class="proj-text">
+                      结合设计专业背景,输出<em>「环境氛围 + 光影色彩 + 材质细节」</em>3 大维度标注规范,覆盖雨雾雪效强度分级、光源方向判定、明暗对比、主色调、景深、风格化处理等细粒度子维度;设计相关专业培训材料,每个属性档位配 3–5 张锚点参考图,赋能非设计背景标注员在 <strong>1–2 天内完成上岗</strong>,快速对齐标准;定义六段式结构化 caption 模板,累计交付 <strong>1 万多条细粒度视觉属性标注数据</strong>。
+                    </div>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label outcome">成果 / Outcome</div>
+                    <div class="proj-text">VLM 对设计场景类图像的属性识别粒度显著提升,生图质量效果得到验证性改善。</div>
+                    <div class="stat-grid">
+                      <div class="stat"><div class="stat-num">3 维</div><div class="stat-lbl">标注规范</div></div>
+                      <div class="stat"><div class="stat-num">10000+</div><div class="stat-lbl">标注数据</div></div>
+                      <div class="stat"><div class="stat-num">六段式</div><div class="stat-lbl">caption 模板</div></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="project-pane" data-proj="2">
+                  <div class="project-header">
+                    <span class="num">P.03</span>
+                    <span class="name">多模态 Agent 方案生成数据建设</span>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label">背景 / Background</div>
+                    <div class="proj-text">
+                      产品线核心模块<em>"方案概念生成助手"</em>:设计师输入需求,Agent 自主完成「调研 → 概念 → 风格迭代 → 合规自检 → 材料推荐」多轮闭环。
+                    </div>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label">核心职责 / Role</div>
+                    <div class="proj-text">
+                      主导 <strong>《Agent 规则文档 V1.0 → V2.1》</strong> 迭代,梳理工具调用逻辑、风格标签体系、输出质量判断标准;带领团队生产约 <strong>两千条 Agent 轨迹数据</strong>。建立轨迹<em>"合格 / 不合格 / 可改写"</em>三分类标注策略,制定从规则阅读、思考判断、行动判断、错误改写到 JSON 格式校验的完整标注 SOP。
+                    </div>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label outcome">成果 / Outcome</div>
+                    <div class="proj-text">方案概念阶段耗时较人工流程大幅压缩,服务多位设计师完成初步概念设计。</div>
+                    <div class="stat-grid">
+                      <div class="stat"><div class="stat-num">V2.1</div><div class="stat-lbl">规则迭代</div></div>
+                      <div class="stat"><div class="stat-num">2000+</div><div class="stat-lbl">轨迹数据</div></div>
+                      <div class="stat"><div class="stat-num">5 步</div><div class="stat-lbl">标注 SOP</div></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="project-pane" data-proj="3">
+                  <div class="project-header">
+                    <span class="num">P.04</span>
+                    <span class="name">数据自动化生产工作流</span>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label">背景 / Background</div>
+                    <div class="proj-text">
+                      面对产品迭代对高质量数据的海量刚需,主导搭建<em>「数据合成 — 预标注 — 自动评测 — 人工复核」</em>四阶段自动化工作流,横向赋能上述项目。
+                    </div>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label">核心职责 / Role</div>
+                    <div class="proj-text">
+                      基于规则文档驱动 <strong>trae、Cursor</strong> 调动 API 批量生成评测 Query,人工精筛替代人工出题;SFT 种子数据采用<em>"爬取素材库图片 + 强模型预标注各维度视觉属性 + 脚本自动生成结构化 caption + 人工复核"</em>流程,消除人工创作的风格差异;引入强模型作为<strong>"AI 打分员"(LLM-as-a-Judge)</strong>替代人工初评,通过<em>"先分析再打分"</em>的 PE 设计避免随意给分,用多模型交叉投票消除单一模型偏见。
+                    </div>
+                  </div>
+                  <div class="proj-block">
+                    <div class="proj-label outcome">成果 / Outcome</div>
+                    <div class="proj-text">自动化覆盖后,提升团队月度交付能力;工作流沉淀为团队多项目组标准化参考,内部技术分享 <strong>2 场</strong>。</div>
+                    <div class="stat-grid">
+                      <div class="stat"><div class="stat-num">4 阶段</div><div class="stat-lbl">自动化流</div></div>
+                      <div class="stat"><div class="stat-num">LLM</div><div class="stat-lbl">as a Judge</div></div>
+                      <div class="stat"><div class="stat-num">交叉投票</div><div class="stat-lbl">消除偏见</div></div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PAGE: AI WORKS ===== -->
+          <div class="page active" data-page="3">
+            <h1 class="section-title">AI 作品 <span class="en">// AI WORKS · CH.04</span></h1>
+            <div class="section-sub">VHS TAPE WALL · 个人 AI 创作 · CLICK A TAPE TO PLAY</div>
+
+            <div class="vhs-room">
+
+              <div class="vhs-section-label">
+                <span>STILL · 图像录像带</span>
+                <span class="count">18 TAPES</span>
+              </div>
+
+              <div class="vhs-shelf">
+                <div class="vhs-row">
+                  <div class="tape placeholder" data-type="img" data-pid="S-001">
+                    <div class="tape-index">VOL.001</div>
+                    <div class="tape-label">
+                      <div class="pid">S-001</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-002">
+                    <div class="tape-index">VOL.002</div>
+                    <div class="tape-label">
+                      <div class="pid">S-002</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-003">
+                    <div class="tape-index">VOL.003</div>
+                    <div class="tape-label">
+                      <div class="pid">S-003</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-004">
+                    <div class="tape-index">VOL.004</div>
+                    <div class="tape-label">
+                      <div class="pid">S-004</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-005">
+                    <div class="tape-index">VOL.005</div>
+                    <div class="tape-label">
+                      <div class="pid">S-005</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-006">
+                    <div class="tape-index">VOL.006</div>
+                    <div class="tape-label">
+                      <div class="pid">S-006</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-007">
+                    <div class="tape-index">VOL.007</div>
+                    <div class="tape-label">
+                      <div class="pid">S-007</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-008">
+                    <div class="tape-index">VOL.008</div>
+                    <div class="tape-label">
+                      <div class="pid">S-008</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-009">
+                    <div class="tape-index">VOL.009</div>
+                    <div class="tape-label">
+                      <div class="pid">S-009</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-010">
+                    <div class="tape-index">VOL.010</div>
+                    <div class="tape-label">
+                      <div class="pid">S-010</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-011">
+                    <div class="tape-index">VOL.011</div>
+                    <div class="tape-label">
+                      <div class="pid">S-011</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-012">
+                    <div class="tape-index">VOL.012</div>
+                    <div class="tape-label">
+                      <div class="pid">S-012</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-013">
+                    <div class="tape-index">VOL.013</div>
+                    <div class="tape-label">
+                      <div class="pid">S-013</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-014">
+                    <div class="tape-index">VOL.014</div>
+                    <div class="tape-label">
+                      <div class="pid">S-014</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-015">
+                    <div class="tape-index">VOL.015</div>
+                    <div class="tape-label">
+                      <div class="pid">S-015</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-016">
+                    <div class="tape-index">VOL.016</div>
+                    <div class="tape-label">
+                      <div class="pid">S-016</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-017">
+                    <div class="tape-index">VOL.017</div>
+                    <div class="tape-label">
+                      <div class="pid">S-017</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                  <div class="tape placeholder" data-type="img" data-pid="S-018">
+                    <div class="tape-index">VOL.018</div>
+                    <div class="tape-label">
+                      <div class="pid">S-018</div>
+                      <div class="ttl">作品标题</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="vhs-section-label">
+                <span>MOTION · 视频录像带</span>
+                <span class="count">6 TAPES</span>
+              </div>
+
+              <div class="vhs-shelf">
+                <div class="vhs-row">
+                  <div class="tape video" data-type="video" data-pid="V-001" data-src="works/v001.mp4">
+                    <div class="tape-index">VOL.M01</div>
+                    <div class="tape-label">
+                      <div class="pid">V-001</div>
+                      <div class="ttl">雾林惊觉</div>
+                      <div class="kw">悬疑 · 武侠 · 雾林</div>
+                    </div>
+                    <div class="tape-badge">VHS · MOTION</div>
+                  </div>
+                  <div class="tape video" data-type="video" data-pid="V-002" data-src="works/v002.mp4">
+                    <div class="tape-index">VOL.M02</div>
+                    <div class="tape-label">
+                      <div class="pid">V-002</div>
+                      <div class="ttl">黄绿条纹小跑车</div>
+                      <div class="kw">复古 · 田园 · 微缩</div>
+                    </div>
+                    <div class="tape-badge">VHS · MOTION</div>
+                  </div>
+                  <div class="tape video" data-type="video" data-pid="V-003" data-src="作品集/jimeng-2026-04-28-5627-听到声响：女孩猛地转头看向林深处，刀微抬，雾中似有什么东西在动。女孩从静止状态突....mp4">
+                    <div class="tape-index">VOL.M03</div>
+                    <div class="tape-label">
+                      <div class="pid">V-003</div>
+                      <div class="ttl">转头警觉</div>
+                      <div class="kw">悬疑 · 武侠 · 动作</div>
+                    </div>
+                    <div class="tape-badge">VHS · MOTION</div>
+                  </div>
+                  <div class="tape video" data-type="video" data-pid="V-004" data-src="作品集/jimeng-2026-04-30-4830-镜头 01｜黑屏开场 画面：纯黑画面。听见心跳声——_咚……咚……_，由远及近，....mp4">
+                    <div class="tape-index">VOL.M04</div>
+                    <div class="tape-label">
+                      <div class="pid">V-004</div>
+                      <div class="ttl">黑屏心跳</div>
+                      <div class="kw">悬疑 · 氛围 · 开场</div>
+                    </div>
+                    <div class="tape-badge">VHS · MOTION</div>
+                  </div>
+                  <div class="tape video placeholder" data-type="video" data-pid="V-005">
+                    <div class="tape-index">VOL.M05</div>
+                    <div class="tape-label">
+                      <div class="pid">V-005</div>
+                      <div class="ttl">视频作品</div>
+                      <div class="kw">关键词 · 关键词</div>
+                    </div>
+                    <div class="tape-badge">VHS · MOTION</div>
+                  </div>
+                  <div class="tape video placeholder" data-type="video" data-pid="V-006">
+                    <div class="tape-index">VOL.M06</div>
+                    <div class="tape-label">
+                      <div class="pid">V-006</div>
+                      <div class="ttl">视频作品</div>
+                      <div class="kw">关键词 · 关键词</div>
+                    </div>
+                    <div class="tape-badge">VHS · MOTION</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- ===== PAGE: ARCHIVE ===== -->
+          <div class="page archive" data-page="4">
+            <h1 class="section-title">早期经历 <span class="en">// ARCHIVE · CH.05</span></h1>
+            <div class="section-sub">SECTION 02 · TRACK: 设计 / 教育 · 2022.06 — 2024.05 · STATUS: ARCHIVED</div>
+
+            <div class="archive-banner">▮ ARCHIVED · 信号偏弱 · BLACK &amp; WHITE</div>
+
+            <div class="arch-job">
+              <div class="arch-job-head">
+                <div>
+                  <span class="arch-company">杭州巨尚传媒科技有限公司</span>
+                  <span class="arch-role">&nbsp;&nbsp;设计师</span>
+                </div>
+                <div class="arch-period">2023.06 — 2024.05</div>
+              </div>
+              <div class="arch-desc">
+                6 人设计团队主创,独立负责多个企业、市政、乡村振兴类项目全流程,从场地调研、需求拆解、方案设计、效果图制作到提案汇报,对接甲方并处理多轮反馈意见,主导方案迭代节奏。
+              </div>
+              <div class="arch-projects">
+                <div class="arch-proj">
+                  <div class="arch-proj-name">临海市古城街道靖江社区平安驿站</div>
+                  <div class="arch-proj-desc">创新融合学生服务与警务办公复合功能,在有限空间内完成多方需求的空间适配,主导从现场调研到最终方案落地全流程。</div>
+                </div>
+                <div class="arch-proj">
+                  <div class="arch-proj-name">路桥区蓬街镇新红村美丽乡村改造</div>
+                  <div class="arch-proj-desc">打造美丽乡村循环游览动线,植入网红餐厅、研学农场等流量节点,通过空间叙事撬动区域文旅流量。</div>
+                </div>
+                <div class="arch-proj">
+                  <div class="arch-proj-name">三门县浦坝港镇 S224、黄泗线景观提升改造</div>
+                  <div class="arch-proj-desc">独立完成两条线路的差异化调研,针对不同区段的交通流量、周边业态、视觉节点定制提升方案。</div>
+                </div>
+                <div class="arch-proj">
+                  <div class="arch-proj-name">丽水市松阳县松古灌区水文化设计</div>
+                  <div class="arch-proj-desc">深度挖掘松古灌区的千年农耕水利文化,将文化符号转译为可感知的景观元素,赋予历史遗址新的空间活力。</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="arch-job">
+              <div class="arch-job-head">
+                <div>
+                  <span class="arch-company">四雅艺术培训有限公司</span>
+                  <span class="arch-role">&nbsp;&nbsp;教师</span>
+                </div>
+                <div class="arch-period">2022.06 — 2023.02</div>
+              </div>
+              <div class="arch-desc">
+                作为机构派驻教师,独立承担公办学校硬笔书法大班教学及课堂组织管理。面向 40–50 人大班,将硬笔书法的笔画结构、字形规律拆解为学生可理解、可模仿的分层教学规则;独立负责课堂纪律、教学节奏、作业批改与反馈,建立个人的教学 SOP;定期反馈学员学习情况,建立机构与家长之间的联系。
+              </div>
+              <div class="stat-grid" style="margin-top: 14px;">
+                <div class="stat"><div class="stat-num">40 — 50</div><div class="stat-lbl">大班规模</div></div>
+                <div class="stat"><div class="stat-num">99%</div><div class="stat-lbl">学员好评率</div></div>
+                <div class="stat"><div class="stat-num">96%</div><div class="stat-lbl">家长续课率</div></div>
+                <div class="stat"><div class="stat-num">SOP</div><div class="stat-lbl">教学方法论</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ===== PAGE: CONTACT ===== -->
+          <div class="page contact" data-page="5">
+            <div class="contact-title">联&nbsp;系</div>
+            <div class="contact-en">G E T &nbsp; I N &nbsp; T O U C H</div>
+
+            <div class="contact-list">
+              <div class="contact-item">
+                <span class="k">TEL.</span>
+                <span class="v">157&nbsp;·&nbsp;2788&nbsp;·&nbsp;1571</span>
+              </div>
+              <div class="contact-item">
+                <span class="k">MAIL</span>
+                <span class="v">894249452@qq.com</span>
+              </div>
+              <div class="contact-item">
+                <span class="k">READY</span>
+                <span class="v">到岗时间 1 周内</span>
+              </div>
+            </div>
+
+            <div class="contact-end">END OF BROADCAST · THANK YOU FOR WATCHING</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTROLS -->
+    <div class="controls">
+      <div class="knob-group">
+        <div class="knob vol" id="knob-vol" data-pos="2"></div>
+        <div class="knob-label">VOL</div>
+      </div>
+      <div class="knob-group">
+        <div class="knob ch" id="knob-ch" data-pos="3"></div>
+        <div class="knob-label">CH</div>
+      </div>
+      <div class="led-block">
+        <div class="led-bar"></div>
+        <div class="knob-label">POWER</div>
+      </div>
+      <div class="led-block">
+        <div class="tune-row">
+          <div class="tune-led on"></div>
+          <div class="tune-led on"></div>
+        </div>
+        <div class="knob-label">TUNE</div>
+      </div>
+      <div class="speaker-vent"></div>
+    </div>
+
+    <div class="tv-brand">VINTAGE CRT · CH · 2026</div>
+
+  </div>
+</div>
+
+<!-- VHS PLAYER -->
+<div class="vhs-player" id="vhsPlayer">
+  <div class="vhs-player-shell">
+    <button class="vhs-player-close" id="vhsClose">✕ EJECT</button>
+    <button class="vhs-nav-btn prev" id="vhsPrev">◀</button>
+    <button class="vhs-nav-btn next" id="vhsNext">▶</button>
+
+    <div class="vhs-player-bar">
+      <span class="now-playing" id="vhsNowPlaying">PLAYING — VOL.002</span>
+      <span id="vhsCounter">00:00:01</span>
+    </div>
+
+    <div class="vhs-player-screen" id="vhsScreen">
+      <div class="burn-in" id="vhsBurnIn" style=""></div>
+      <div id="vhsMedia"></div>
+    </div>
+
+    <div class="vhs-player-meta">
+      <div class="left">
+        <div class="pid" id="vhsMetaPid">S-002</div>
+        <div class="ttl" id="vhsMetaTtl">作品标题</div>
+      </div>
+      <div class="right" id="vhsMetaKw"></div>
+    </div>
+  </div>
+</div>
+
+<!-- NAV STRIP -->
+<div class="nav-strip">
+  <button class="nav-btn" data-nav="0">CH.01 · HOME</button>
+  <button class="nav-btn" data-nav="1">CH.02 · PROFILE</button>
+  <button class="nav-btn" data-nav="2">CH.03 · PORTFOLIO</button>
+  <button class="nav-btn active" data-nav="3">CH.04 · AI WORKS</button>
+  <button class="nav-btn" data-nav="4">CH.05 · ARCHIVE</button>
+  <button class="nav-btn" data-nav="5">CH.06 · CONTACT</button>
+</div>
+
+<!-- FOOTER -->
+<div class="foot">
+  <span>SET IN NOTO SERIF SC · NOTO SANS SC · JETBRAINS MONO</span>
+  <span>陈 · 虹 / CHEN HONG &nbsp;●&nbsp; PORTFOLIO 2026</span>
+</div>
+
+<script src="./陈虹 · CHEN HONG _ Portfolio — AI Trainer_files/Tone.js.下载"></script>
+<script>
+  const channels = [
+    'CH.01 — SIGNAL IN',
+    'CH.02 — PROFILE',
+    'CH.03 — PORTFOLIO',
+    'CH.04 — AI WORKS',
+    'CH.05 — ARCHIVE',
+    'CH.06 — CONTACT'
+  ];
+
+  const pages = document.querySelectorAll('.page');
+  const navBtns = document.querySelectorAll('.nav-btn');
+  const knobCh = document.getElementById('knob-ch');
+  const knobVol = document.getElementById('knob-vol');
+  const screen = document.getElementById('screen');
+  const hudCh = document.getElementById('hud-ch');
+  const tv = document.getElementById('tv');
+  const powerGate = document.getElementById('powerGate');
+  const powerBtn = document.getElementById('powerBtn');
+  const audioCtrl = document.getElementById('audioCtrl');
+  const audioCtrlLabel = document.getElementById('audioCtrlLabel');
+
+  let current = 0;
+  let switching = false;
+  let audioReady = false;
+  let muted = false;
+  let volPos = 2; // 0=mute 1=low 2=mid 3=high
+  const volLevels = [-Infinity, -16, -6, 0]; // dB - much louder now
+  let masterGain, ambientHum, noiseSrc, padSynth, padLoop, clickSynth;
+
+  /* ============ AUDIO SYSTEM ============ */
+  let staticNoiseGain, fizzGainNode; // 暴露给 powerOn 用
+  async function initAudio() {
+    if (audioReady) return;
+    await Tone.start();
+
+    masterGain = new Tone.Gain(Tone.dbToGain(volLevels[volPos])).toDestination();
+
+    // CRT 雪花声 —— 主层 pink 噪(默认静音,只在开机时响)
+    noiseSrc = new Tone.Noise('pink').start();
+    const noiseFilter = new Tone.Filter(2000, 'lowpass');
+    staticNoiseGain = new Tone.Gain(0);
+    noiseSrc.chain(noiseFilter, staticNoiseGain, masterGain);
+
+    // CRT 雪花声 —— 高频细沙感(默认静音)
+    const fizz = new Tone.Noise('white').start();
+    const fizzFilt = new Tone.Filter(5500, 'highpass');
+    fizzGainNode = new Tone.Gain(0);
+    fizz.chain(fizzFilt, fizzGainNode, masterGain);
+
+    // 切台 click 音效
+    clickSynth = new Tone.MembraneSynth({
+      pitchDecay: 0.008,
+      octaves: 2,
+      envelope: { attack: 0.001, decay: 0.08, sustain: 0, release: 0.05 }
+    });
+    const clickGain = new Tone.Gain(0.7).connect(masterGain);
+    clickSynth.connect(clickGain);
+
+    audioReady = true;
+  }
+
+  // 在开机过场期间播放雪花声,然后渐淡消失
+  function playStaticBurst() {
+    if (!audioReady || !staticNoiseGain) return;
+    // 立即拉起到目标音量
+    staticNoiseGain.gain.cancelScheduledValues(Tone.now());
+    fizzGainNode.gain.cancelScheduledValues(Tone.now());
+    staticNoiseGain.gain.setValueAtTime(0.18, Tone.now());
+    fizzGainNode.gain.setValueAtTime(0.04, Tone.now());
+    // 2 秒后开始 0.4 秒渐淡
+    staticNoiseGain.gain.setValueAtTime(0.18, Tone.now() + 2.0);
+    staticNoiseGain.gain.linearRampToValueAtTime(0, Tone.now() + 2.4);
+    fizzGainNode.gain.setValueAtTime(0.04, Tone.now() + 2.0);
+    fizzGainNode.gain.linearRampToValueAtTime(0, Tone.now() + 2.4);
+  }
+
+  function playClick() {
+    if (!audioReady || muted) return;
+    try { clickSynth.triggerAttackRelease('C2', '32n'); } catch (e) {}
+  }
+
+  function setVolume(pos) {
+    volPos = pos;
+    knobVol.setAttribute('data-pos', pos);
+    if (audioReady && masterGain) {
+      const target = muted ? -Infinity : volLevels[pos];
+      masterGain.gain.rampTo(Tone.dbToGain(target), 0.25);
+    }
+  }
+
+  function toggleMute() {
+    muted = !muted;
+    audioCtrl.classList.toggle('muted', muted);
+    audioCtrlLabel.textContent = muted ? 'AUDIO OFF' : 'AUDIO ON';
+    if (audioReady && masterGain) {
+      const target = muted ? -Infinity : volLevels[volPos];
+      masterGain.gain.rampTo(Tone.dbToGain(target), 0.3);
+    }
+  }
+
+  /* ============ POWER GATE ============ */
+  async function powerOn() {
+    powerGate.classList.add('gone');
+    audioCtrl.style.display = 'flex';
+    // play power-on animation now (was on by default before; we re-add)
+    tv.classList.add('power-on');
+    setTimeout(() => tv.classList.remove('power-on'), 2400);
+
+    try {
+      await initAudio();
+      playStaticBurst(); // 仅在开机过场期间响
+    } catch (e) { console.warn('Audio init failed', e); }
+  }
+  // Make sure intro doesn't auto-play before power-on
+  tv.classList.remove('power-on');
+
+  powerBtn.addEventListener('click', powerOn);
+  powerGate.addEventListener('click', (e) => {
+    if (e.target === powerGate) powerOn();
+  });
+
+  /* ============ CHANNEL SWITCHING ============ */
+  function goTo(idx) {
+    if (idx === current || switching) return;
+    switching = true;
+    screen.classList.add('switching');
+    playClick();
+
+    setTimeout(() => {
+      pages.forEach(p => p.classList.remove('active'));
+      navBtns.forEach(b => b.classList.remove('active'));
+      pages[idx].classList.add('active');
+      navBtns[idx].classList.add('active');
+      knobCh.setAttribute('data-pos', idx);
+      hudCh.textContent = channels[idx];
+      current = idx;
+    }, 160);
+
+    setTimeout(() => {
+      screen.classList.remove('switching');
+      switching = false;
+    }, 360);
+  }
+
+  navBtns.forEach((b, i) => b.addEventListener('click', () => goTo(i)));
+  knobCh.addEventListener('click', () => goTo((current + 1) % channels.length));
+
+  /* ============ VOL KNOB — CYCLE 4 LEVELS ============ */
+  knobVol.addEventListener('click', () => {
+    const next = (volPos + 1) % 4;
+    setVolume(next);
+    playClick();
+    // brief brightness flicker for visual feedback
+    screen.style.filter = 'brightness(1.2)';
+    setTimeout(() => { screen.style.filter = ''; }, 250);
+  });
+
+  /* ============ AUDIO MUTE TOGGLE ============ */
+  audioCtrl.addEventListener('click', toggleMute);
+
+  /* ============ KEYBOARD NAV ============ */
+  document.addEventListener('keydown', (e) => {
+    // 当 VHS 播放器打开时,把方向键和数字键留给播放器
+    if (document.getElementById('vhsPlayer').classList.contains('active')) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') goTo((current + 1) % channels.length);
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') goTo((current - 1 + channels.length) % channels.length);
+    const n = parseInt(e.key);
+    if (!isNaN(n) && n >= 1 && n <= 6) goTo(n - 1);
+    if (e.key === 'm' || e.key === 'M') toggleMute();
+  });
+
+  /* ============ PROJECT SUB-NAV ============ */
+  const projItems = document.querySelectorAll('.project-item');
+  const projPanes = document.querySelectorAll('.project-pane');
+  projItems.forEach(item => {
+    item.addEventListener('click', () => {
+      const id = item.getAttribute('data-proj');
+      projItems.forEach(i => i.classList.remove('active'));
+      projPanes.forEach(p => p.classList.remove('active'));
+      item.classList.add('active');
+      document.querySelector(`.project-pane[data-proj="${id}"]`).classList.add('active');
+      playClick();
+    });
+  });
+
+  /* ============ VHS PLAYER (AI WORKS) ============ */
+  const vhsPlayer = document.getElementById('vhsPlayer');
+  const vhsScreen = document.getElementById('vhsScreen');
+  const vhsMedia = document.getElementById('vhsMedia');
+  const vhsBurnIn = document.getElementById('vhsBurnIn');
+  const vhsNowPlaying = document.getElementById('vhsNowPlaying');
+  const vhsCounter = document.getElementById('vhsCounter');
+  const vhsMetaPid = document.getElementById('vhsMetaPid');
+  const vhsMetaTtl = document.getElementById('vhsMetaTtl');
+  const vhsMetaKw = document.getElementById('vhsMetaKw');
+
+  // collect all non-placeholder tapes (and placeholders for demo)
+  let tapes = [];
+  function refreshTapes() {
+    tapes = Array.from(document.querySelectorAll('.tape')).filter(t => !t.style.visibility);
+  }
+  refreshTapes();
+
+  let currentTapeIdx = 0;
+  let counterInterval = null;
+
+  function loadTape(idx) {
+    const tape = tapes[idx];
+    if (!tape) return;
+    currentTapeIdx = idx;
+
+    const type = tape.dataset.type;
+    const pid = tape.dataset.pid || tape.querySelector('.pid')?.textContent || '';
+    const ttl = tape.querySelector('.ttl')?.textContent || '作品标题';
+    const kw = tape.querySelector('.kw')?.textContent || '';
+    const isPlaceholder = tape.classList.contains('placeholder');
+
+    // burn-in flash
+    vhsBurnIn.style.animation = 'none';
+    void vhsBurnIn.offsetWidth; // reflow
+    vhsBurnIn.style.animation = '';
+
+    // load media
+    if (isPlaceholder) {
+      vhsMedia.innerHTML = `
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+                    background:linear-gradient(135deg,#2a2014,#1a1208);
+                    color:var(--gold-dim);font-family:'JetBrains Mono',monospace;
+                    font-size:14px;letter-spacing:0.3em;text-align:center;line-height:2;">
+          [ ${pid} ]<br>
+          NO TAPE INSERTED<br>
+          <span style="font-size:10px;opacity:0.7;">— REPLACE WITH REAL MEDIA —</span>
+        </div>`;
+    } else {
+      const src = tape.dataset.src || '';
+      const errorHTML = `
+        <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
+                    background:linear-gradient(135deg,#2a2014,#1a1208);
+                    color:var(--signal-red);font-family:'JetBrains Mono',monospace;
+                    font-size:13px;letter-spacing:0.25em;text-align:center;line-height:2;padding:20px;">
+          <div style="font-size:28px;margin-bottom:14px;">⚠</div>
+          MEDIA LOAD FAILED<br>
+          <span style="font-size:10px;opacity:0.7;color:var(--gold-dim);margin-top:10px;max-width:80%;">
+            浏览器拦截了本地文件加载,<br>
+            请用本地服务器打开<br>
+            (运行 python3 -m http.server)
+          </span>
+        </div>`;
+      if (type === 'video') {
+        vhsMedia.innerHTML = `<video src="${src}" controls autoplay loop playsinline></video>`;
+        const v = vhsMedia.querySelector('video');
+        v.addEventListener('error', () => { vhsMedia.innerHTML = errorHTML; });
+      } else {
+        vhsMedia.innerHTML = `<img src="${src}" alt="">`;
+        const img = vhsMedia.querySelector('img');
+        img.addEventListener('error', () => { vhsMedia.innerHTML = errorHTML; });
+      }
+    }
+
+    // meta
+    vhsNowPlaying.textContent = `PLAYING — ${tape.querySelector('.tape-index')?.textContent || pid}`;
+    vhsMetaPid.textContent = pid;
+    vhsMetaTtl.textContent = ttl;
+    vhsMetaKw.textContent = kw;
+
+    // counter
+    if (counterInterval) clearInterval(counterInterval);
+    let sec = 0;
+    counterInterval = setInterval(() => {
+      sec++;
+      const h = String(Math.floor(sec / 3600)).padStart(2, '0');
+      const m = String(Math.floor((sec % 3600) / 60)).padStart(2, '0');
+      const s = String(sec % 60).padStart(2, '0');
+      vhsCounter.textContent = `${h}:${m}:${s}`;
+    }, 1000);
+  }
+
+  function openPlayer(idx) {
+    refreshTapes();
+    vhsPlayer.classList.add('active');
+    loadTape(idx);
+  }
+
+  function closePlayer() {
+    vhsPlayer.classList.remove('active');
+    vhsMedia.innerHTML = '';
+    if (counterInterval) clearInterval(counterInterval);
+  }
+
+  // wire up tape clicks
+  document.querySelectorAll('.tape').forEach(tape => {
+    if (tape.style.visibility) return;
+    tape.addEventListener('click', () => {
+      refreshTapes();
+      const idx = tapes.indexOf(tape);
+      if (idx >= 0) openPlayer(idx);
+    });
+  });
+
+  document.getElementById('vhsClose').addEventListener('click', closePlayer);
+  document.getElementById('vhsPrev').addEventListener('click', () => {
+    loadTape((currentTapeIdx - 1 + tapes.length) % tapes.length);
+  });
+  document.getElementById('vhsNext').addEventListener('click', () => {
+    loadTape((currentTapeIdx + 1) % tapes.length);
+  });
+  vhsPlayer.addEventListener('click', (e) => { if (e.target === vhsPlayer) closePlayer(); });
+
+  document.addEventListener('keydown', (e) => {
+    if (!vhsPlayer.classList.contains('active')) return;
+    if (e.key === 'Escape') closePlayer();
+    if (e.key === 'ArrowLeft') loadTape((currentTapeIdx - 1 + tapes.length) % tapes.length);
+    if (e.key === 'ArrowRight') loadTape((currentTapeIdx + 1) % tapes.length);
+  });
+
+  /* ============ HUD CLOCK ============ */
+  setInterval(() => {
+    const t = new Date();
+    const hh = String(t.getHours()).padStart(2, '0');
+    const mm = String(t.getMinutes()).padStart(2, '0');
+    const ss = String(t.getSeconds()).padStart(2, '0');
+    const recEl = document.querySelector('.hud-rec');
+    if (recEl) recEl.innerHTML = `REC · ${hh}:${mm}:${ss}`;
+  }, 1000);
+</script>
+
+
+
+</body></html>
