@@ -259,16 +259,13 @@
     overflow: hidden;
   }
   .ai-intro.active { display: block; }
-  .ai-intro:not(.stage-2) { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect x='4' y='1' width='2' height='2' fill='%23f0d89c'/><rect x='6' y='1' width='2' height='2' fill='%23f0d89c'/><rect x='8' y='1' width='2' height='2' fill='%23f0d89c'/><rect x='10' y='1' width='2' height='2' fill='%23f0d89c'/><rect x='3' y='3' width='10' height='1' fill='%23000'/><rect x='3' y='4' width='10' height='2' fill='%23f0d89c'/><rect x='2' y='5' width='1' height='5' fill='%23000'/><rect x='13' y='5' width='1' height='5' fill='%23000'/><rect x='2' y='6' width='12' height='4' fill='%23d4a574'/><rect x='3' y='7' width='1' height='1' fill='%23f0d89c'/><rect x='6' y='7' width='1' height='1' fill='%23f0d89c'/><rect x='9' y='7' width='1' height='1' fill='%23f0d89c'/><rect x='12' y='7' width='1' height='1' fill='%23f0d89c'/><rect x='3' y='10' width='10' height='2' fill='%238b6f3f'/><rect x='3' y='12' width='10' height='1' fill='%23000'/><rect x='5' y='12' width='6' height='2' fill='%238b6f3f'/><rect x='5' y='14' width='6' height='1' fill='%23000'/></svg>") 16 12, pointer; }
+  .ai-intro { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='36' viewBox='0 0 18 16' shape-rendering='crispEdges'><rect x='3' y='0' width='8' height='1' fill='%23000'/><rect x='2' y='1' width='1' height='1' fill='%23000'/><rect x='11' y='1' width='1' height='1' fill='%23000'/><rect x='1' y='2' width='1' height='2' fill='%23000'/><rect x='12' y='2' width='1' height='2' fill='%23000'/><rect x='1' y='4' width='1' height='4' fill='%23000'/><rect x='12' y='4' width='2' height='1' fill='%23000'/><rect x='14' y='5' width='1' height='3' fill='%23000'/><rect x='12' y='8' width='2' height='1' fill='%23000'/><rect x='1' y='8' width='1' height='5' fill='%23000'/><rect x='12' y='9' width='1' height='4' fill='%23000'/><rect x='2' y='13' width='1' height='1' fill='%23000'/><rect x='11' y='13' width='1' height='1' fill='%23000'/><rect x='3' y='14' width='8' height='1' fill='%23000'/><rect x='3' y='1' width='8' height='1' fill='%23d4a574'/><rect x='2' y='2' width='10' height='2' fill='%23d4a574'/><rect x='2' y='4' width='10' height='4' fill='%23d4a574'/><rect x='12' y='5' width='2' height='3' fill='%23d4a574'/><rect x='2' y='8' width='10' height='5' fill='%23d4a574'/><rect x='3' y='13' width='8' height='1' fill='%23d4a574'/><rect x='3' y='2' width='2' height='2' fill='%23f0d89c'/><rect x='6' y='2' width='2' height='2' fill='%23f0d89c'/><rect x='9' y='2' width='2' height='2' fill='%23f0d89c'/><rect x='5' y='4' width='1' height='2' fill='%238b6f3f'/><rect x='8' y='4' width='1' height='2' fill='%238b6f3f'/><rect x='2' y='11' width='10' height='2' fill='%238b6f3f'/></svg>") 20 16, pointer; }
   .ai-intro canvas {
     position: absolute; inset: 0;
     width: 100%; height: 100%;
     display: block;
   }
   .ai-intro-snow { z-index: 2; pointer-events: none; }
-  .ai-intro-dust { z-index: 3; pointer-events: none; opacity: 0; transition: opacity .25s; }
-  .ai-intro.stage-2 .ai-intro-snow { opacity: 0; transition: opacity .25s; }
-  .ai-intro.stage-2 .ai-intro-dust { pointer-events: auto; opacity: 1; cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='28' viewBox='0 0 40 28'><rect x='2' y='4' width='36' height='20' rx='3' fill='%23d4a574' stroke='%238b6f3f' stroke-width='2'/><line x1='10' y1='9' x2='30' y2='9' stroke='%238b6f3f' stroke-width='1.5'/><line x1='10' y1='14' x2='30' y2='14' stroke='%238b6f3f' stroke-width='1.5'/><line x1='10' y1='19' x2='30' y2='19' stroke='%238b6f3f' stroke-width='1.5'/></svg>") 20 14, grab; }
   .ai-intro-prompt {
     position: absolute; left: 50%; top: 50%;
     transform: translate(-50%, -50%);
@@ -2060,7 +2057,6 @@
 
         <div class="ai-intro" id="aiIntro">
           <canvas class="ai-intro-snow" id="aiIntroSnow"></canvas>
-          <canvas class="ai-intro-dust" id="aiIntroDust"></canvas>
           <div class="ai-intro-prompt" id="aiIntroPrompt">信号不稳 · 请敲击屏幕</div>
         </div>
 
@@ -2819,18 +2815,15 @@
     const root = document.getElementById('aiIntro');
     const prompt = document.getElementById('aiIntroPrompt');
     const snow = document.getElementById('aiIntroSnow');
-    const dust = document.getElementById('aiIntroDust');
     const sCtx = snow.getContext('2d');
-    const dCtx = dust.getContext('2d');
 
     root.classList.add('active');
-    root.classList.remove('stage-2');
     root.style.opacity = '';
     prompt.style.opacity = '';
     prompt.textContent = '信号不稳 · 请敲击屏幕';
 
-    const W = snow.width = dust.width = snow.offsetWidth || 800;
-    const H = snow.height = dust.height = snow.offsetHeight || 500;
+    const W = snow.width = snow.offsetWidth || 800;
+    const H = snow.height = snow.offsetHeight || 500;
     let snowOpacity = 1;
     let rafId;
     function paintSnow() {
@@ -2849,124 +2842,31 @@
 
     let knocks = 0;
     const KNOCKS_NEEDED = 3;
+    let finished = false;
     function onKnock() {
       knocks++;
       playKnock();
-      snowOpacity = Math.max(0.1, 1 - knocks * 0.32);
+      snowOpacity = Math.max(0, 1 - knocks * 0.34);
       root.classList.add('shake');
       setTimeout(() => root.classList.remove('shake'), 220);
-      if (knocks >= KNOCKS_NEEDED) {
-        root.removeEventListener('click', onKnock);
+      if (knocks >= KNOCKS_NEEDED) finish();
+    }
+    function finish() {
+      if (finished) return;
+      finished = true;
+      root.removeEventListener('click', onKnock);
+      root.style.transition = 'opacity .35s';
+      root.style.opacity = '0';
+      setTimeout(() => {
         cancelAnimationFrame(rafId);
         sCtx.clearRect(0, 0, W, H);
-        startWipe();
-      }
+        root.classList.remove('active');
+        root.style.transition = '';
+        root.style.opacity = '';
+        onDone();
+      }, 360);
     }
     root.addEventListener('click', onKnock);
-
-    function startWipe() {
-      root.classList.add('stage-2');
-      prompt.textContent = '屏幕太脏了 · 擦干净';
-
-      const dustImg = dCtx.createImageData(W, H);
-      const dd = dustImg.data;
-      for (let i = 0; i < dd.length; i += 4) {
-        const base = 30 + Math.random() * 35;
-        const tint = Math.random() * 30;
-        dd[i]   = base + tint * 0.7;
-        dd[i+1] = base + tint * 0.35;
-        dd[i+2] = base * 0.45;
-        dd[i+3] = 225 + Math.random() * 30;
-      }
-      dCtx.putImageData(dustImg, 0, 0);
-      for (let i = 0; i < 24; i++) {
-        dCtx.fillStyle = `rgba(50,30,15,${0.25 + Math.random() * 0.45})`;
-        dCtx.beginPath();
-        dCtx.arc(Math.random() * W, Math.random() * H, 30 + Math.random() * 70, 0, Math.PI * 2);
-        dCtx.fill();
-      }
-      dCtx.globalCompositeOperation = 'destination-out';
-
-      let drawing = false;
-      let lastX = null, lastY = null;
-      let promptHidden = false;
-      let finished = false;
-
-      function pos(e) {
-        const r = dust.getBoundingClientRect();
-        const cx = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
-        const cy = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
-        return [cx * W / r.width, cy * H / r.height];
-      }
-      function erase(x, y) {
-        const r = Math.max(40, Math.min(W, H) * 0.09);
-        dCtx.beginPath();
-        dCtx.arc(x, y, r, 0, Math.PI * 2);
-        dCtx.fill();
-        if (lastX !== null) {
-          dCtx.lineWidth = r * 2;
-          dCtx.lineCap = 'round';
-          dCtx.beginPath();
-          dCtx.moveTo(lastX, lastY);
-          dCtx.lineTo(x, y);
-          dCtx.stroke();
-        }
-        lastX = x; lastY = y;
-      }
-      function clearedRatio() {
-        const data = dCtx.getImageData(0, 0, W, H).data;
-        let cleared = 0, total = 0;
-        for (let i = 3; i < data.length; i += 80) {
-          if (data[i] < 30) cleared++;
-          total++;
-        }
-        return cleared / total;
-      }
-      function down(e) {
-        e.preventDefault();
-        drawing = true;
-        lastX = lastY = null;
-        if (!promptHidden) { prompt.style.opacity = '0'; promptHidden = true; }
-        const [x, y] = pos(e);
-        erase(x, y);
-      }
-      function move(e) {
-        if (!drawing) return;
-        e.preventDefault();
-        const [x, y] = pos(e);
-        erase(x, y);
-        if (clearedRatio() > 0.6) finish();
-      }
-      function up() { drawing = false; lastX = lastY = null; }
-
-      function finish() {
-        if (finished) return;
-        finished = true;
-        dust.removeEventListener('mousedown', down);
-        dust.removeEventListener('mousemove', move);
-        window.removeEventListener('mouseup', up);
-        dust.removeEventListener('touchstart', down);
-        dust.removeEventListener('touchmove', move);
-        window.removeEventListener('touchend', up);
-        root.style.transition = 'opacity .35s';
-        root.style.opacity = '0';
-        setTimeout(() => {
-          root.classList.remove('active', 'stage-2');
-          root.style.transition = '';
-          root.style.opacity = '';
-          dCtx.globalCompositeOperation = 'source-over';
-          dCtx.clearRect(0, 0, W, H);
-          onDone();
-        }, 360);
-      }
-
-      dust.addEventListener('mousedown', down);
-      dust.addEventListener('mousemove', move);
-      window.addEventListener('mouseup', up);
-      dust.addEventListener('touchstart', down, { passive: false });
-      dust.addEventListener('touchmove', move, { passive: false });
-      window.addEventListener('touchend', up);
-    }
   }
 
   /* ============ CHANNEL SWITCHING ============ */
