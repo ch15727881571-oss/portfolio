@@ -1435,8 +1435,8 @@
     z-index: 1;
   }
 
-  /* 右侧磁带仓窗(透过亚克力壳能看到两个轮子) */
-  .arch-proj::after {
+  /* 右侧磁带仓窗(没有缩略图时显示空仓) */
+  .arch-proj:not([data-album])::after {
     content: '';
     position: absolute;
     right: 12px;
@@ -1454,6 +1454,98 @@
       inset 0 1px 2px rgba(0, 0, 0, 0.7),
       inset 0 -1px 0 rgba(255, 200, 130, 0.05);
     z-index: 1;
+  }
+
+  /* 真实缩略图替换右侧磁带仓窗 */
+  .arch-proj[data-album] {
+    cursor: pointer;
+    padding-right: 144px;
+    min-height: 80px;
+  }
+  .arch-proj-thumb {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 120px;
+    height: 70px;
+    background-color: #1a1208;
+    background-size: cover;
+    background-position: center;
+    border: 1px solid rgba(212, 168, 87, 0.45);
+    border-radius: 3px;
+    box-shadow:
+      inset 0 0 0 1px rgba(0, 0, 0, 0.5),
+      0 2px 6px rgba(0, 0, 0, 0.6);
+    z-index: 2;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .arch-proj[data-album]:hover .arch-proj-thumb {
+    transform: translateY(-50%) scale(1.04);
+    box-shadow:
+      inset 0 0 0 1px rgba(212, 168, 87, 0.4),
+      0 6px 14px rgba(0, 0, 0, 0.7),
+      0 0 18px rgba(212, 168, 87, 0.25);
+  }
+  .arch-proj-thumb::after {
+    content: attr(data-count);
+    position: absolute;
+    right: 4px; bottom: 3px;
+    padding: 1px 6px;
+    background: rgba(0, 0, 0, 0.7);
+    color: var(--gold-bright);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    border-radius: 2px;
+  }
+
+  /* ============ ARCHIVE LIGHTBOX ============ */
+  .arch-lightbox {
+    position: fixed; inset: 0;
+    z-index: 9999;
+    background: rgba(0, 0, 0, 0.92);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(8px);
+  }
+  .arch-lightbox.active { display: flex; }
+  .arch-lightbox img {
+    max-width: 90vw;
+    max-height: 86vh;
+    object-fit: contain;
+    border: 1px solid rgba(212, 168, 87, 0.3);
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
+  }
+  .arch-lb-btn {
+    position: absolute;
+    background: rgba(20, 14, 6, 0.7);
+    border: 1px solid rgba(212, 168, 87, 0.4);
+    color: var(--gold-bright);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    width: 48px; height: 48px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+    user-select: none;
+  }
+  .arch-lb-btn:hover { background: rgba(40, 28, 12, 0.9); border-color: var(--gold-bright); }
+  .arch-lb-prev { left: 24px; top: 50%; transform: translateY(-50%); }
+  .arch-lb-next { right: 24px; top: 50%; transform: translateY(-50%); }
+  .arch-lb-close { right: 24px; top: 24px; }
+  .arch-lb-info {
+    position: absolute;
+    left: 50%; bottom: 24px;
+    transform: translateX(-50%);
+    color: var(--gold);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    background: rgba(20, 14, 6, 0.7);
+    padding: 6px 14px;
+    border: 1px solid rgba(212, 168, 87, 0.3);
   }
 
   /* 文字标签 */
@@ -2530,21 +2622,25 @@
                 6 人设计团队主创,独立负责多个企业、市政、乡村振兴类项目全流程,从场地调研、需求拆解、方案设计、效果图制作到提案汇报,对接甲方并处理多轮反馈意见,主导方案迭代节奏。
               </div>
               <div class="arch-projects">
-                <div class="arch-proj">
+                <div class="arch-proj" data-album="01" data-count="4">
                   <div class="arch-proj-name">临海市古城街道靖江社区平安驿站</div>
                   <div class="arch-proj-desc">创新融合学生服务与警务办公复合功能,在有限空间内完成多方需求的空间适配,主导从现场调研到最终方案落地全流程。</div>
+                  <div class="arch-proj-thumb" data-count="4 / 张"></div>
                 </div>
-                <div class="arch-proj">
+                <div class="arch-proj" data-album="02" data-count="5">
                   <div class="arch-proj-name">路桥区蓬街镇新红村美丽乡村改造</div>
                   <div class="arch-proj-desc">打造美丽乡村循环游览动线,植入网红餐厅、研学农场等流量节点,通过空间叙事撬动区域文旅流量。</div>
+                  <div class="arch-proj-thumb" data-count="5 / 张"></div>
                 </div>
-                <div class="arch-proj">
+                <div class="arch-proj" data-album="03" data-count="4">
                   <div class="arch-proj-name">三门县浦坝港镇 S224、黄泗线景观提升改造</div>
                   <div class="arch-proj-desc">独立完成两条线路的差异化调研,针对不同区段的交通流量、周边业态、视觉节点定制提升方案。</div>
+                  <div class="arch-proj-thumb" data-count="4 / 张"></div>
                 </div>
-                <div class="arch-proj">
+                <div class="arch-proj" data-album="04" data-count="5">
                   <div class="arch-proj-name">丽水市松阳县松古灌区水文化设计</div>
                   <div class="arch-proj-desc">深度挖掘松古灌区的千年农耕水利文化,将文化符号转译为可感知的景观元素,赋予历史遗址新的空间活力。</div>
+                  <div class="arch-proj-thumb" data-count="5 / 张"></div>
                 </div>
               </div>
             </div>
@@ -2623,6 +2719,15 @@
     <div class="tv-brand">VINTAGE CRT · CH · 2026</div>
 
   </div>
+</div>
+
+<!-- ARCH LIGHTBOX -->
+<div class="arch-lightbox" id="archLightbox">
+  <button class="arch-lb-btn arch-lb-close" id="archLbClose">✕</button>
+  <button class="arch-lb-btn arch-lb-prev" id="archLbPrev">◀</button>
+  <button class="arch-lb-btn arch-lb-next" id="archLbNext">▶</button>
+  <img id="archLbImg" src="" alt="">
+  <div class="arch-lb-info" id="archLbInfo"></div>
 </div>
 
 <!-- VHS PLAYER -->
@@ -3096,6 +3201,53 @@
     if (e.key === 'ArrowLeft') loadTape((currentTapeIdx - 1 + tapes.length) % tapes.length);
     if (e.key === 'ArrowRight') loadTape((currentTapeIdx + 1) % tapes.length);
   });
+
+  /* ============ ARCH LIGHTBOX ============ */
+  const archLightbox = document.getElementById('archLightbox');
+  const archLbImg = document.getElementById('archLbImg');
+  const archLbInfo = document.getElementById('archLbInfo');
+  let archLbAlbum = '01', archLbIdx = 1, archLbCount = 4;
+
+  function archLbLoad() {
+    archLbImg.src = cdnUrl(`作品集/archive/${archLbAlbum}/${archLbIdx}.jpg`);
+    archLbInfo.textContent = `${archLbIdx} / ${archLbCount}`;
+  }
+
+  function archLbOpen(album, count, idx) {
+    archLbAlbum = album;
+    archLbCount = count;
+    archLbIdx = idx || 1;
+    archLbLoad();
+    archLightbox.classList.add('active');
+  }
+
+  document.querySelectorAll('.arch-proj[data-album]').forEach(proj => {
+    proj.addEventListener('click', () => {
+      archLbOpen(proj.dataset.album, parseInt(proj.dataset.count), 1);
+    });
+  });
+
+  document.getElementById('archLbClose').addEventListener('click', () => {
+    archLightbox.classList.remove('active');
+  });
+  document.getElementById('archLbPrev').addEventListener('click', () => {
+    archLbIdx = archLbIdx > 1 ? archLbIdx - 1 : archLbCount;
+    archLbLoad();
+  });
+  document.getElementById('archLbNext').addEventListener('click', () => {
+    archLbIdx = archLbIdx < archLbCount ? archLbIdx + 1 : 1;
+    archLbLoad();
+  });
+  archLightbox.addEventListener('click', (e) => {
+    if (e.target === archLightbox) archLightbox.classList.remove('active');
+  });
+  document.addEventListener('keydown', (e) => {
+    if (!archLightbox.classList.contains('active')) return;
+    e.stopImmediatePropagation();
+    if (e.key === 'Escape') archLightbox.classList.remove('active');
+    if (e.key === 'ArrowLeft') { archLbIdx = archLbIdx > 1 ? archLbIdx - 1 : archLbCount; archLbLoad(); }
+    if (e.key === 'ArrowRight') { archLbIdx = archLbIdx < archLbCount ? archLbIdx + 1 : 1; archLbLoad(); }
+  }, true);
 
   /* ============ HUD CLOCK ============ */
   setInterval(() => {
