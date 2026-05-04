@@ -251,6 +251,51 @@
     100% { transform: scaleY(0); opacity: 0; }
   }
 
+  /* ============ AI WORKS INTRO MINI-GAME (knock + wipe) ============ */
+  .ai-intro {
+    position: absolute; inset: 0;
+    z-index: 200;
+    display: none;
+    overflow: hidden;
+  }
+  .ai-intro.active { display: block; }
+  .ai-intro:not(.stage-2) { cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 16 16' shape-rendering='crispEdges'><rect x='4' y='1' width='2' height='2' fill='%23f0d89c'/><rect x='6' y='1' width='2' height='2' fill='%23f0d89c'/><rect x='8' y='1' width='2' height='2' fill='%23f0d89c'/><rect x='10' y='1' width='2' height='2' fill='%23f0d89c'/><rect x='3' y='3' width='10' height='1' fill='%23000'/><rect x='3' y='4' width='10' height='2' fill='%23f0d89c'/><rect x='2' y='5' width='1' height='5' fill='%23000'/><rect x='13' y='5' width='1' height='5' fill='%23000'/><rect x='2' y='6' width='12' height='4' fill='%23d4a574'/><rect x='3' y='7' width='1' height='1' fill='%23f0d89c'/><rect x='6' y='7' width='1' height='1' fill='%23f0d89c'/><rect x='9' y='7' width='1' height='1' fill='%23f0d89c'/><rect x='12' y='7' width='1' height='1' fill='%23f0d89c'/><rect x='3' y='10' width='10' height='2' fill='%238b6f3f'/><rect x='3' y='12' width='10' height='1' fill='%23000'/><rect x='5' y='12' width='6' height='2' fill='%238b6f3f'/><rect x='5' y='14' width='6' height='1' fill='%23000'/></svg>") 16 12, pointer; }
+  .ai-intro canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    display: block;
+  }
+  .ai-intro-snow { z-index: 2; pointer-events: none; }
+  .ai-intro-dust { z-index: 3; pointer-events: none; opacity: 0; transition: opacity .25s; }
+  .ai-intro.stage-2 .ai-intro-snow { opacity: 0; transition: opacity .25s; }
+  .ai-intro.stage-2 .ai-intro-dust { pointer-events: auto; opacity: 1; cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='28' viewBox='0 0 40 28'><rect x='2' y='4' width='36' height='20' rx='3' fill='%23d4a574' stroke='%238b6f3f' stroke-width='2'/><line x1='10' y1='9' x2='30' y2='9' stroke='%238b6f3f' stroke-width='1.5'/><line x1='10' y1='14' x2='30' y2='14' stroke='%238b6f3f' stroke-width='1.5'/><line x1='10' y1='19' x2='30' y2='19' stroke='%238b6f3f' stroke-width='1.5'/></svg>") 20 14, grab; }
+  .ai-intro-prompt {
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 4;
+    color: #f0d89c;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    text-shadow: 0 0 12px rgba(240, 216, 156, 0.6);
+    background: rgba(0, 0, 0, 0.55);
+    padding: 12px 22px;
+    border: 1px solid rgba(240, 216, 156, 0.4);
+    pointer-events: none;
+    white-space: nowrap;
+    animation: ai-intro-blink 1.2s infinite;
+    transition: opacity .3s;
+  }
+  @keyframes ai-intro-blink { 0%, 100% { opacity: 0.95; } 50% { opacity: 0.55; } }
+  .ai-intro.shake { animation: ai-intro-shake 0.22s; }
+  @keyframes ai-intro-shake {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(-5px, 2px); }
+    50% { transform: translate(4px, -3px); }
+    75% { transform: translate(-2px, 4px); }
+  }
+
   /* ============ SCREEN CONTENT ============ */
   .screen-inner {
     position: relative;
@@ -2013,6 +2058,12 @@
         <div class="tracking-band"></div>
         <div class="color-bars"><span></span><span></span><span></span><span></span><span></span><span></span></div>
 
+        <div class="ai-intro" id="aiIntro">
+          <canvas class="ai-intro-snow" id="aiIntroSnow"></canvas>
+          <canvas class="ai-intro-dust" id="aiIntroDust"></canvas>
+          <div class="ai-intro-prompt" id="aiIntroPrompt">信号不稳 · 请敲击屏幕</div>
+        </div>
+
         <div class="screen-inner">
 
           <!-- HUD -->
@@ -2254,126 +2305,144 @@
                     <div class="tape-index">VOL.001</div>
                     <div class="tape-label">
                       <div class="pid">S-001</div>
-                      <div class="ttl">STL · 1583</div>
+                      <div class="ttl">小卖部</div>
+                      <div class="kw">水彩 · 千禧 · 街景</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-002" data-src="作品集/jimeng-2026-04-28-2638-千禧年，住宅楼小卖部正面全景，茂盛树荫，蓝色玻璃，楼下小商店，门前有光影，细节满....png">
                     <div class="tape-index">VOL.002</div>
                     <div class="tape-label">
                       <div class="pid">S-002</div>
-                      <div class="ttl">STL · 2638</div>
+                      <div class="ttl">街角便利店</div>
+                      <div class="kw">水彩 · 黄昏 · 老城</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-003" data-src="作品集/jimeng-2026-04-28-2994-油画风格，厚涂，厚薄不同塑造立体感，一张联考色彩风格的画，.png">
                     <div class="tape-index">VOL.003</div>
                     <div class="tape-label">
                       <div class="pid">S-003</div>
-                      <div class="ttl">STL · 2994</div>
+                      <div class="ttl">联考色稿</div>
+                      <div class="kw">油画 · 联考 · 厚涂</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-004" data-src="作品集/jimeng-2026-04-28-4937-彩线描人物，搞怪的丑照，彩色边边，高品质细节，超最佳品质，电影质感.png">
                     <div class="tape-index">VOL.004</div>
                     <div class="tape-label">
                       <div class="pid">S-004</div>
-                      <div class="ttl">STL · 4937</div>
+                      <div class="ttl">彩线肖像 · 壹</div>
+                      <div class="kw">彩线 · 肖像 · 涂鸦</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-005" data-src="作品集/jimeng-2026-04-28-6590-彩线描人物，搞怪的丑照，彩色边边，高品质细节，超最佳品质，电影质感.png">
                     <div class="tape-index">VOL.005</div>
                     <div class="tape-label">
                       <div class="pid">S-005</div>
-                      <div class="ttl">STL · 6590</div>
+                      <div class="ttl">彩线肖像 · 贰</div>
+                      <div class="kw">彩线 · 肖像 · 涂鸦</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-006" data-src="作品集/jimeng-2026-04-29-1477-文字去掉.png">
                     <div class="tape-index">VOL.006</div>
                     <div class="tape-label">
                       <div class="pid">S-006</div>
-                      <div class="ttl">STL · 1477</div>
+                      <div class="ttl">去字处理</div>
+                      <div class="kw">修图 · 净版 · 处理</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-007" data-src="作品集/jimeng-2026-04-29-5608-航拍摄影风格，极繁主义，神秘感，细节完美，杰作。航拍古代苏州，城门，古城墙，郊外....png">
                     <div class="tape-index">VOL.007</div>
                     <div class="tape-label">
                       <div class="pid">S-007</div>
-                      <div class="ttl">STL · 5608</div>
+                      <div class="ttl">航拍古苏州</div>
+                      <div class="kw">航拍 · 古城 · 神秘</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-008" data-src="作品集/jimeng-2026-05-03-9682-主体：唐朝东方神秘风格，帅气侍卫与美丽贵妃在黑暗宫门缝隙处低声私语，侍卫低头凝视....png">
                     <div class="tape-index">VOL.008</div>
                     <div class="tape-label">
                       <div class="pid">S-008</div>
-                      <div class="ttl">STL · 9682</div>
+                      <div class="ttl">宫门私语</div>
+                      <div class="kw">唐朝 · 宫廷 · 暗夜</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-009" data-src="作品集/ChatGPT Image 2026年4月23日 14_18_21.png">
                     <div class="tape-index">VOL.009</div>
                     <div class="tape-label">
                       <div class="pid">S-009</div>
-                      <div class="ttl">STL · 1418</div>
+                      <div class="ttl">街头电动</div>
+                      <div class="kw">海报 · 工业 · 霓虹</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-010" data-src="作品集/ChatGPT Image 2026年4月28日 15_44_10.png">
                     <div class="tape-index">VOL.010</div>
                     <div class="tape-label">
                       <div class="pid">S-010</div>
-                      <div class="ttl">STL · 1544</div>
+                      <div class="ttl">同福客栈</div>
+                      <div class="kw">像素 · 武侠 · 群像</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-011" data-src="作品集/ChatGPT Image 2026年4月28日 15_56_35.png">
                     <div class="tape-index">VOL.011</div>
                     <div class="tape-label">
                       <div class="pid">S-011</div>
-                      <div class="ttl">STL · 1556</div>
+                      <div class="ttl">山海钟楼</div>
+                      <div class="kw">奇幻 · 神殿 · 云海</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-012" data-src="作品集/ChatGPT Image 2026年4月29日 00_10_23.png">
                     <div class="tape-index">VOL.012</div>
                     <div class="tape-label">
                       <div class="pid">S-012</div>
-                      <div class="ttl">STL · 0010</div>
+                      <div class="ttl">炎炎夏日</div>
+                      <div class="kw">胶片 · 少女 · 暑气</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-013" data-src="作品集/ChatGPT Image 2026年5月3日 17_34_02.png">
                     <div class="tape-index">VOL.013</div>
                     <div class="tape-label">
                       <div class="pid">S-013</div>
-                      <div class="ttl">STL · 1734</div>
+                      <div class="ttl">拱顶之下</div>
+                      <div class="kw">史诗 · 暗光 · 哥特</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-014" data-src="作品集/Gemini_Generated_Image_1xxh421xxh421xxh.png">
                     <div class="tape-index">VOL.014</div>
                     <div class="tape-label">
                       <div class="pid">S-014</div>
-                      <div class="ttl">STL · GEMI</div>
+                      <div class="ttl">凌晨三点</div>
+                      <div class="kw">赛博 · Y2K · 蓝光</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-015" data-src="作品集/525a7cf8-5186-4d49-8b9a-7bb1ba77b323.png">
                     <div class="tape-index">VOL.015</div>
                     <div class="tape-label">
                       <div class="pid">S-015</div>
-                      <div class="ttl">STL · 525A</div>
+                      <div class="ttl">石牌坊志</div>
+                      <div class="kw">古建 · 解剖 · 蓝图</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-016" data-src="作品集/ccacdfef-1721-4b89-8472-edd454d9a47e.png">
                     <div class="tape-index">VOL.016</div>
                     <div class="tape-label">
                       <div class="pid">S-016</div>
-                      <div class="ttl">STL · CCAC</div>
+                      <div class="ttl">起居室</div>
+                      <div class="kw">室内 · 中古 · 静物</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-017" data-src="作品集/1775086356331-pyiim6x7-1.png">
                     <div class="tape-index">VOL.017</div>
                     <div class="tape-label">
                       <div class="pid">S-017</div>
-                      <div class="ttl">STL · 1775</div>
+                      <div class="ttl">老旧小巷</div>
+                      <div class="kw">像素 · 悬案 · 雨夜</div>
                     </div>
                   </div>
                   <div class="tape" data-type="img" data-pid="S-018" data-src="作品集/微信图片_20260424220928_370_7.png">
                     <div class="tape-index">VOL.018</div>
                     <div class="tape-label">
                       <div class="pid">S-018</div>
-                      <div class="ttl">STL · 0424</div>
+                      <div class="ttl">微信图像</div>
+                      <div class="kw">旧物 · 记忆 · 怀旧</div>
                     </div>
                   </div>
                 </div>
@@ -2632,7 +2701,7 @@
   let muted = false;
   let volPos = 2; // 0=mute 1=low 2=mid 3=high
   const volLevels = [-Infinity, -16, -6, 0]; // dB - much louder now
-  let masterGain, ambientHum, noiseSrc, padSynth, padLoop, clickSynth;
+  let masterGain, ambientHum, noiseSrc, padSynth, padLoop, clickSynth, knockSynth;
 
   /* ============ AUDIO SYSTEM ============ */
   let staticNoiseGain, fizzGainNode; // 暴露给 powerOn 用
@@ -2653,6 +2722,16 @@
     const fizzFilt = new Tone.Filter(5500, 'highpass');
     fizzGainNode = new Tone.Gain(0);
     fizz.chain(fizzFilt, fizzGainNode, masterGain);
+
+    // 敲屏幕 knock 音效（低频木质感）
+    knockSynth = new Tone.MembraneSynth({
+      pitchDecay: 0.04,
+      octaves: 6,
+      envelope: { attack: 0.001, decay: 0.18, sustain: 0, release: 0.08 }
+    });
+    const knockFilt = new Tone.Filter(900, 'lowpass');
+    const knockGain = new Tone.Gain(0.85).connect(masterGain);
+    knockSynth.chain(knockFilt, knockGain);
 
     // 切台 click 音效
     clickSynth = new Tone.MembraneSynth({
@@ -2684,6 +2763,14 @@
   function playClick() {
     if (!audioReady || muted) return;
     try { clickSynth.triggerAttackRelease('C2', '32n'); } catch (e) {}
+  }
+
+  function playKnock() {
+    if (!audioReady || muted || !knockSynth) return;
+    try {
+      const notes = ['G1', 'A1', 'F1'];
+      knockSynth.triggerAttackRelease(notes[Math.floor(Math.random() * notes.length)], '16n');
+    } catch (e) {}
   }
 
   function setVolume(pos) {
@@ -2726,9 +2813,178 @@
     if (e.target === powerGate) powerOn();
   });
 
+  /* ============ AI WORKS INTRO MINI-GAME ============ */
+  let aiIntroDone = false;
+  function runAIIntro(onDone) {
+    const root = document.getElementById('aiIntro');
+    const prompt = document.getElementById('aiIntroPrompt');
+    const snow = document.getElementById('aiIntroSnow');
+    const dust = document.getElementById('aiIntroDust');
+    const sCtx = snow.getContext('2d');
+    const dCtx = dust.getContext('2d');
+
+    root.classList.add('active');
+    root.classList.remove('stage-2');
+    root.style.opacity = '';
+    prompt.style.opacity = '';
+    prompt.textContent = '信号不稳 · 请敲击屏幕';
+
+    const W = snow.width = dust.width = snow.offsetWidth || 800;
+    const H = snow.height = dust.height = snow.offsetHeight || 500;
+    let snowOpacity = 1;
+    let rafId;
+    function paintSnow() {
+      const img = sCtx.createImageData(W, H);
+      const d = img.data;
+      const a = Math.floor(255 * snowOpacity);
+      for (let i = 0; i < d.length; i += 4) {
+        const v = (Math.random() * 255) | 0;
+        d[i] = d[i+1] = d[i+2] = v;
+        d[i+3] = a;
+      }
+      sCtx.putImageData(img, 0, 0);
+      rafId = requestAnimationFrame(paintSnow);
+    }
+    paintSnow();
+
+    let knocks = 0;
+    const KNOCKS_NEEDED = 3;
+    function onKnock() {
+      knocks++;
+      playKnock();
+      snowOpacity = Math.max(0.1, 1 - knocks * 0.32);
+      root.classList.add('shake');
+      setTimeout(() => root.classList.remove('shake'), 220);
+      if (knocks >= KNOCKS_NEEDED) {
+        root.removeEventListener('click', onKnock);
+        cancelAnimationFrame(rafId);
+        sCtx.clearRect(0, 0, W, H);
+        startWipe();
+      }
+    }
+    root.addEventListener('click', onKnock);
+
+    function startWipe() {
+      root.classList.add('stage-2');
+      prompt.textContent = '屏幕太脏了 · 擦干净';
+
+      const dustImg = dCtx.createImageData(W, H);
+      const dd = dustImg.data;
+      for (let i = 0; i < dd.length; i += 4) {
+        const base = 30 + Math.random() * 35;
+        const tint = Math.random() * 30;
+        dd[i]   = base + tint * 0.7;
+        dd[i+1] = base + tint * 0.35;
+        dd[i+2] = base * 0.45;
+        dd[i+3] = 225 + Math.random() * 30;
+      }
+      dCtx.putImageData(dustImg, 0, 0);
+      for (let i = 0; i < 24; i++) {
+        dCtx.fillStyle = `rgba(50,30,15,${0.25 + Math.random() * 0.45})`;
+        dCtx.beginPath();
+        dCtx.arc(Math.random() * W, Math.random() * H, 30 + Math.random() * 70, 0, Math.PI * 2);
+        dCtx.fill();
+      }
+      dCtx.globalCompositeOperation = 'destination-out';
+
+      let drawing = false;
+      let lastX = null, lastY = null;
+      let promptHidden = false;
+      let finished = false;
+
+      function pos(e) {
+        const r = dust.getBoundingClientRect();
+        const cx = (e.touches ? e.touches[0].clientX : e.clientX) - r.left;
+        const cy = (e.touches ? e.touches[0].clientY : e.clientY) - r.top;
+        return [cx * W / r.width, cy * H / r.height];
+      }
+      function erase(x, y) {
+        const r = Math.max(40, Math.min(W, H) * 0.09);
+        dCtx.beginPath();
+        dCtx.arc(x, y, r, 0, Math.PI * 2);
+        dCtx.fill();
+        if (lastX !== null) {
+          dCtx.lineWidth = r * 2;
+          dCtx.lineCap = 'round';
+          dCtx.beginPath();
+          dCtx.moveTo(lastX, lastY);
+          dCtx.lineTo(x, y);
+          dCtx.stroke();
+        }
+        lastX = x; lastY = y;
+      }
+      function clearedRatio() {
+        const data = dCtx.getImageData(0, 0, W, H).data;
+        let cleared = 0, total = 0;
+        for (let i = 3; i < data.length; i += 80) {
+          if (data[i] < 30) cleared++;
+          total++;
+        }
+        return cleared / total;
+      }
+      function down(e) {
+        e.preventDefault();
+        drawing = true;
+        lastX = lastY = null;
+        if (!promptHidden) { prompt.style.opacity = '0'; promptHidden = true; }
+        const [x, y] = pos(e);
+        erase(x, y);
+      }
+      function move(e) {
+        if (!drawing) return;
+        e.preventDefault();
+        const [x, y] = pos(e);
+        erase(x, y);
+        if (clearedRatio() > 0.6) finish();
+      }
+      function up() { drawing = false; lastX = lastY = null; }
+
+      function finish() {
+        if (finished) return;
+        finished = true;
+        dust.removeEventListener('mousedown', down);
+        dust.removeEventListener('mousemove', move);
+        window.removeEventListener('mouseup', up);
+        dust.removeEventListener('touchstart', down);
+        dust.removeEventListener('touchmove', move);
+        window.removeEventListener('touchend', up);
+        root.style.transition = 'opacity .35s';
+        root.style.opacity = '0';
+        setTimeout(() => {
+          root.classList.remove('active', 'stage-2');
+          root.style.transition = '';
+          root.style.opacity = '';
+          dCtx.globalCompositeOperation = 'source-over';
+          dCtx.clearRect(0, 0, W, H);
+          onDone();
+        }, 360);
+      }
+
+      dust.addEventListener('mousedown', down);
+      dust.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', up);
+      dust.addEventListener('touchstart', down, { passive: false });
+      dust.addEventListener('touchmove', move, { passive: false });
+      window.addEventListener('touchend', up);
+    }
+  }
+
   /* ============ CHANNEL SWITCHING ============ */
   function goTo(idx) {
     if (idx === current || switching) return;
+    if (idx === 3 && !aiIntroDone) {
+      aiIntroDone = true;
+      switching = true;
+      pages.forEach(p => p.classList.remove('active'));
+      navBtns.forEach(b => b.classList.remove('active'));
+      pages[idx].classList.add('active');
+      navBtns[idx].classList.add('active');
+      knobCh.setAttribute('data-pos', idx);
+      hudCh.textContent = channels[idx];
+      current = idx;
+      runAIIntro(() => { switching = false; });
+      return;
+    }
     switching = true;
     screen.classList.add('switching');
     playClick();
