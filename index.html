@@ -2699,6 +2699,27 @@
   const volLevels = [-Infinity, -16, -6, 0]; // dB - much louder now
   let masterGain, ambientHum, noiseSrc, padSynth, padLoop, clickSynth, knockSynth;
 
+  /* ============ MEDIA CDN ============ */
+  const MEDIA_CDN = /github\.io$/.test(location.hostname)
+    ? 'https://cdn.jsdelivr.net/gh/ch15727881571-oss/portfolio@main/'
+    : '';
+  function cdnUrl(p) {
+    if (!p || /^https?:/.test(p)) return p;
+    return MEDIA_CDN + p;
+  }
+  // Preload on hover so playback starts faster when clicked
+  document.addEventListener('mouseover', (e) => {
+    const tape = e.target.closest('.tape[data-src]');
+    if (!tape || tape._preloaded) return;
+    tape._preloaded = true;
+    const url = cdnUrl(tape.dataset.src);
+    const link = document.createElement('link');
+    link.rel = 'preload';
+    link.as = tape.dataset.type === 'video' ? 'video' : 'image';
+    link.href = url;
+    document.head.appendChild(link);
+  });
+
   /* ============ AUDIO SYSTEM ============ */
   let staticNoiseGain, fizzGainNode; // 暴露给 powerOn 用
   async function initAudio() {
@@ -2995,7 +3016,7 @@
           <span style="font-size:10px;opacity:0.7;">— REPLACE WITH REAL MEDIA —</span>
         </div>`;
     } else {
-      const src = tape.dataset.src || '';
+      const src = cdnUrl(tape.dataset.src || '');
       const errorHTML = `
         <div style="width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;
                     background:linear-gradient(135deg,#2a2014,#1a1208);
