@@ -1634,11 +1634,13 @@
   }
   .pz-img-area img {
     display: block;
-    max-width: min(82vw, 780px);
-    max-height: 72vh;
+    max-width: min(74vw, 680px);
+    max-height: 60vh;
     object-fit: contain;
-    box-shadow: 0 6px 28px rgba(0,0,0,0.45);
+    /* 拍立得白边：上/左/右 均等，底部加宽 */
     background: #fff;
+    padding: 10px 10px 38px;
+    box-shadow: 2px 5px 22px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.2);
   }
   /* 翻页按钮 */
   .pz-nav-btn {
