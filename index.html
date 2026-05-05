@@ -3306,6 +3306,17 @@
     /* ── 点击事件 ── */
     proj.addEventListener('click', (e) => {
       e.stopPropagation();
+
+      /* 优先：点击宝丽来照片 → 放大预览 */
+      const pol = e.target.closest('.polaroid');
+      if (pol) {
+        const img = pol.querySelector('img');
+        if (img && img.src && !img.dataset.src) {
+          openPolaroidZoom(img.src);
+        }
+        return;
+      }
+
       if (proj.classList.contains('tape-open')) {
         closeTape(proj);
       } else {
@@ -3322,6 +3333,15 @@
     });
   });
 
+  /* 宝丽来放大预览函数 */
+  function openPolaroidZoom(src) {
+    const zoom = document.createElement('div');
+    zoom.className = 'polaroid-zoom';
+    zoom.innerHTML = `<img src="${src}" alt="">`;
+    zoom.addEventListener('click', () => zoom.remove());
+    document.body.appendChild(zoom);
+  }
+
   /* 点击空白关闭磁带 */
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.arch-proj')) {
@@ -3329,21 +3349,7 @@
     }
   });
 
-  /* ── 宝丽来放大预览 ── */
-  document.addEventListener('click', (e) => {
-    const polaroid = e.target.closest('.polaroid');
-    if (!polaroid) return;
-    e.stopPropagation();
-    const img = polaroid.querySelector('img');
-    if (!img || !img.src) return;
-    const zoom = document.createElement('div');
-    zoom.className = 'polaroid-zoom';
-    zoom.innerHTML = `<img src="${img.src}" alt="">`;
-    zoom.addEventListener('click', () => zoom.remove());
-    document.body.appendChild(zoom);
-  });
-
-  /* ESC 关闭磁带或放大预览 */
+  /* ESC 关闭放大预览或磁带 */
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       const zoom = document.querySelector('.polaroid-zoom');
