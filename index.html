@@ -1579,83 +1579,45 @@
     background: #d0c8b8;
   }
   /* ── 图片放大预览（档案卡片风格） ── */
+  /* ── 图片放大预览 ── */
   .pz-overlay {
     position: fixed; inset: 0; z-index: 99999;
-    background: rgba(6,4,2,0.92);
-    display: flex; align-items: center; justify-content: center;
-  }
-  .pz-frame {
+    background: rgba(0,0,0,0.88);
     display: flex; flex-direction: column;
-    border: 2px solid #8b6914;
-    border-radius: 3px;
-    box-shadow: 0 0 0 1px #c8a050, 0 0 0 4px rgba(10,8,4,0.8),
-                0 24px 64px rgba(0,0,0,0.85);
-    overflow: hidden;
-    max-width: 92vw;
-    background: #12090220;
+    align-items: center; justify-content: center;
+    gap: 18px;
   }
-  /* 上下横梁 — 木纹 */
-  .pz-bar {
-    background:
-      repeating-linear-gradient(90deg,
-        #2e1e08 0px, #4a2f0e 6px, #3a260c 12px, #2e1e08 18px);
-    border-color: #8b6914;
-    display: flex; align-items: center; gap: 12px;
-    padding: 7px 14px;
+  /* 拍立得卡片 */
+  .pz-card {
+    background: #fff;
+    padding: 10px 10px 42px;
+    box-shadow: 4px 8px 36px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.5);
+    line-height: 0;
+  }
+  .pz-card img {
+    display: block;
+    max-width: min(76vw, 700px);
+    max-height: 64vh;
+    object-fit: contain;
+  }
+  /* 导航栏 */
+  .pz-nav {
+    display: flex; align-items: center; gap: 20px;
     user-select: none;
   }
-  .pz-bar-top  { border-bottom: 2px solid #8b6914; justify-content: space-between; }
-  .pz-bar-bot  { border-top:    2px solid #8b6914; justify-content: space-between; }
-  /* 标题 */
-  .pz-title {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 12px; letter-spacing: 0.08em;
-    color: #e8d5a0; flex: 1;
-    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
-  }
-  /* 关闭按钮 */
-  .pz-close {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px; color: #c8a050;
-    cursor: pointer; line-height: 1;
-    opacity: 0.8; transition: opacity 0.15s;
-    padding: 2px 4px;
-  }
-  .pz-close:hover { opacity: 1; }
-  /* 图片主区 — 深色背景让白边卡片清晰浮出 */
-  .pz-img-area {
-    background: #1a1208;
-    display: flex; align-items: center; justify-content: center;
-    padding: 24px 28px;
-    min-height: 200px; min-width: 260px;
-  }
-  /* 拍立得白框卡片 */
-  .pz-img-area img {
-    display: block;
-    max-width: min(72vw, 660px);
-    max-height: 62vh;
-    object-fit: contain;
-    background: #fff;
-    padding: 10px 10px 42px;   /* 底部加宽模拟拍立得 */
-    box-shadow: 3px 6px 28px rgba(0,0,0,0.75), 0 2px 6px rgba(0,0,0,0.4);
-  }
-  /* 翻页按钮 */
   .pz-nav-btn {
-    background: none;
-    border: 1px solid rgba(200,160,80,0.5);
-    color: #e0c87a; cursor: pointer;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; padding: 3px 10px; border-radius: 2px;
-    letter-spacing: 0.05em;
-    transition: background 0.15s, border-color 0.15s;
+    background: none; border: none;
+    color: rgba(255,255,255,0.55); cursor: pointer;
+    font-size: 22px; line-height: 1;
+    padding: 4px 8px;
+    transition: color 0.15s;
   }
-  .pz-nav-btn:hover:not(:disabled) { background: rgba(200,160,80,0.18); border-color: #c8a050; }
-  .pz-nav-btn:disabled { opacity: 0.28; cursor: default; }
-  /* 计数器 */
+  .pz-nav-btn:hover:not(:disabled) { color: #fff; }
+  .pz-nav-btn:disabled { opacity: 0.18; cursor: default; }
   .pz-counter {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; color: #c8a050;
-    letter-spacing: 0.1em;
+    font-size: 11px; color: rgba(255,255,255,0.4);
+    letter-spacing: 0.12em; min-width: 56px; text-align: center;
   }
   /* 封套底部印章 */
   .sleeve-footer {
@@ -3378,7 +3340,7 @@
         /* 确定点击的是第几张（sleeve 上最多显示3张，但全部图片可翻页） */
         const polaroids = [...back.querySelectorAll('.polaroid')];
         const polIdx = polaroids.indexOf(pol);
-        openPolaroidZoom(allSrcs, polIdx >= 0 ? polIdx : 0, name);
+        openPolaroidZoom(allSrcs, polIdx >= 0 ? polIdx : 0);
         return;
       }
 
@@ -3398,43 +3360,45 @@
     });
   });
 
-  /* ── 放大预览（档案卡风格 + 前后翻页） ── */
-  function openPolaroidZoom(allSrcs, startIdx, projName) {
+  /* ── 放大预览（纯拍立得卡片 + 前后翻页） ── */
+  function openPolaroidZoom(allSrcs, startIdx) {
     let cur = startIdx;
     const total = allSrcs.length;
 
     const overlay = document.createElement('div');
     overlay.className = 'pz-overlay';
 
-    const frame = document.createElement('div');
-    frame.className = 'pz-frame';
+    const card = document.createElement('div');
+    card.className = 'pz-card';
+    const imgEl = document.createElement('img');
+    card.appendChild(imgEl);
+
+    const nav = document.createElement('div');
+    nav.className = 'pz-nav';
+    nav.innerHTML = `
+      <button class="pz-nav-btn pz-prev">&#8592;</button>
+      <span class="pz-counter"></span>
+      <button class="pz-nav-btn pz-next">&#8594;</button>`;
+
+    const prevBtn = nav.querySelector('.pz-prev');
+    const nextBtn = nav.querySelector('.pz-next');
+    const counter = nav.querySelector('.pz-counter');
 
     function render() {
-      frame.innerHTML = `
-        <div class="pz-bar pz-bar-top">
-          <span class="pz-title">${projName || ''}</span>
-          <span class="pz-close" title="关闭 · ESC">✕ CLOSE</span>
-        </div>
-        <div class="pz-img-area">
-          <img src="${allSrcs[cur]}" alt="">
-        </div>
-        <div class="pz-bar pz-bar-bot">
-          <button class="pz-nav-btn pz-prev" ${cur === 0 ? 'disabled' : ''}>◀ PREV</button>
-          <span class="pz-counter">ARCHIVE · ${String(cur+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}</span>
-          <button class="pz-nav-btn pz-next" ${cur === total-1 ? 'disabled' : ''}>NEXT ▶</button>
-        </div>`;
-
-      frame.querySelector('.pz-close').onclick = (ev) => { ev.stopPropagation(); overlay.remove(); };
-      const prevBtn = frame.querySelector('.pz-prev');
-      const nextBtn = frame.querySelector('.pz-next');
-      if (prevBtn) prevBtn.onclick = (ev) => { ev.stopPropagation(); cur--; render(); };
-      if (nextBtn) nextBtn.onclick = (ev) => { ev.stopPropagation(); cur++; render(); };
+      imgEl.src = allSrcs[cur];
+      counter.textContent = `${cur + 1} / ${total}`;
+      prevBtn.disabled = cur === 0;
+      nextBtn.disabled = cur === total - 1;
     }
 
-    render();
-    overlay.appendChild(frame);
+    prevBtn.onclick = (e) => { e.stopPropagation(); if (cur > 0)         { cur--; render(); } };
+    nextBtn.onclick = (e) => { e.stopPropagation(); if (cur < total - 1) { cur++; render(); } };
 
-    /* 点击遮罩背景关闭 */
+    render();
+    overlay.appendChild(card);
+    if (total > 1) overlay.appendChild(nav);
+
+    /* 点击背景关闭 */
     overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
 
     /* 键盘：← → 翻页，ESC 关闭 */
