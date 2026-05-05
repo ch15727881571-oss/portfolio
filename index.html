@@ -1590,17 +1590,29 @@
   .pz-card {
     position: relative;
     background: #fff;
-    padding: 10px 10px 42px;
+    padding: 10px 10px 72px;
     box-shadow: 4px 8px 36px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.5);
     line-height: 0;
     cursor: default;
+    overflow: hidden;
   }
   .pz-card img {
     display: block;
     max-width: min(76vw, 700px);
-    max-height: 64vh;
+    max-height: 62vh;
     object-fit: contain;
   }
+  /* 切图动画 */
+  @keyframes pz-in-next {
+    from { opacity: 0; transform: translateX(36px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @keyframes pz-in-prev {
+    from { opacity: 0; transform: translateX(-36px); }
+    to   { opacity: 1; transform: none; }
+  }
+  .pz-card img.pz-slide-next { animation: pz-in-next 0.28s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
+  .pz-card img.pz-slide-prev { animation: pz-in-prev 0.28s cubic-bezier(0.25,0.46,0.45,0.94) forwards; }
   /* 左右翻页箭头（悬浮在卡片两侧） */
   .pz-arrow {
     position: absolute; top: 0; bottom: 42px; /* 底部白边内 */
@@ -3384,14 +3396,19 @@
       card.appendChild(nextBtn);
     }
 
-    function render() {
+    function render(dir) {
       imgEl.src = allSrcs[cur];
+      if (dir !== undefined) {
+        imgEl.classList.remove('pz-slide-next', 'pz-slide-prev');
+        void imgEl.offsetWidth; /* 触发 reflow，重置动画 */
+        imgEl.classList.add(dir > 0 ? 'pz-slide-next' : 'pz-slide-prev');
+      }
       if (prevBtn) prevBtn.toggleAttribute('disabled', cur === 0);
       if (nextBtn) nextBtn.toggleAttribute('disabled', cur === total - 1);
     }
 
-    if (prevBtn) prevBtn.onclick = (e) => { e.stopPropagation(); if (cur > 0)         { cur--; render(); } };
-    if (nextBtn) nextBtn.onclick = (e) => { e.stopPropagation(); if (cur < total - 1) { cur++; render(); } };
+    if (prevBtn) prevBtn.onclick = (e) => { e.stopPropagation(); if (cur > 0)         { cur--; render(-1); } };
+    if (nextBtn) nextBtn.onclick = (e) => { e.stopPropagation(); if (cur < total - 1) { cur++; render(+1); } };
 
     render();
     overlay.appendChild(card);
@@ -3401,8 +3418,8 @@
 
     /* 键盘：← → 翻页，ESC 关闭 */
     function onKey(e) {
-      if (e.key === 'ArrowLeft'  && cur > 0)         { cur--; render(); }
-      if (e.key === 'ArrowRight' && cur < total - 1) { cur++; render(); }
+      if (e.key === 'ArrowLeft'  && cur > 0)         { cur--; render(-1); }
+      if (e.key === 'ArrowRight' && cur < total - 1) { cur++; render(+1); }
       if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', onKey); }
     }
     document.addEventListener('keydown', onKey);
