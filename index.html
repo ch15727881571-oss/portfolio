@@ -1553,29 +1553,49 @@
   }
   .polaroid {
     background: #fff;
-    padding: 5px 5px 16px;
+    padding: 6px 6px 18px;
     box-shadow: 2px 3px 10px rgba(0,0,0,0.25), 0 1px 3px rgba(0,0,0,0.15);
-    width: 86px;
+    width: 108px;
     flex-shrink: 0;
+    cursor: zoom-in;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .polaroid:hover {
+    box-shadow: 4px 6px 18px rgba(0,0,0,0.35);
+    z-index: 2;
+    position: relative;
   }
   .polaroid:nth-child(1) { transform: rotate(-3.5deg) translateY(2px); }
   .polaroid:nth-child(2) { transform: rotate(2deg); }
   .polaroid:nth-child(3) { transform: rotate(-1.5deg) translateY(3px); }
+  .polaroid:nth-child(1):hover { transform: rotate(-3.5deg) translateY(2px) scale(1.06); }
+  .polaroid:nth-child(2):hover { transform: rotate(2deg) scale(1.06); }
+  .polaroid:nth-child(3):hover { transform: rotate(-1.5deg) translateY(3px) scale(1.06); }
   .polaroid img {
     width: 100%;
-    height: 64px;
+    height: 80px;
     object-fit: cover;
     display: block;
     background: #d0c8b8;
   }
-  /* 封套文字 */
-  .sleeve-text {
-    flex: 1;
-    font-family: 'Noto Sans SC', sans-serif;
-    font-size: 10.5px;
-    color: #4a3520;
-    line-height: 1.85;
-    opacity: 0.9;
+  /* 图片放大遮罩 */
+  .polaroid-zoom {
+    position: fixed;
+    inset: 0;
+    z-index: 99999;
+    background: rgba(0,0,0,0.88);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+  }
+  .polaroid-zoom img {
+    max-width: 86vw;
+    max-height: 86vh;
+    object-fit: contain;
+    box-shadow: 0 12px 48px rgba(0,0,0,0.7);
+    background: #fff;
+    padding: 10px 10px 30px;
   }
   /* 封套底部印章 */
   .sleeve-footer {
@@ -3271,7 +3291,6 @@
       <div class="sleeve-title">${name}</div>
       <div class="sleeve-body">
         <div class="sleeve-photos">${photosHtml}</div>
-        <div class="sleeve-text">${desc}</div>
       </div>
       <div class="sleeve-footer">
         <span class="sleeve-stamp">ARCHIVED · 2024</span>
@@ -3303,15 +3322,32 @@
     });
   });
 
-  /* 点击空白关闭 */
+  /* 点击空白关闭磁带 */
   document.addEventListener('click', (e) => {
     if (!e.target.closest('.arch-proj')) {
       document.querySelectorAll('.arch-proj.tape-open').forEach(closeTape);
     }
   });
-  /* ESC 关闭 */
+
+  /* ── 宝丽来放大预览 ── */
+  document.addEventListener('click', (e) => {
+    const polaroid = e.target.closest('.polaroid');
+    if (!polaroid) return;
+    e.stopPropagation();
+    const img = polaroid.querySelector('img');
+    if (!img || !img.src) return;
+    const zoom = document.createElement('div');
+    zoom.className = 'polaroid-zoom';
+    zoom.innerHTML = `<img src="${img.src}" alt="">`;
+    zoom.addEventListener('click', () => zoom.remove());
+    document.body.appendChild(zoom);
+  });
+
+  /* ESC 关闭磁带或放大预览 */
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
+      const zoom = document.querySelector('.polaroid-zoom');
+      if (zoom) { zoom.remove(); return; }
       document.querySelectorAll('.arch-proj.tape-open').forEach(closeTape);
     }
   });
