@@ -1489,21 +1489,21 @@
   }
   .arch-proj { perspective: 1400px; }
 
-  /* 磁带弹出动画：纯横向抽出，不做纵向位移 */
+  /* 磁带弹出动画 */
   .arch-proj.tape-open .tape-track {
-    animation: tape-eject 0.82s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: tape-eject 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
   .arch-proj.tape-closing .tape-track {
-    animation: tape-insert 0.70s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: tape-insert 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   }
   @keyframes tape-eject {
     0%   { transform: none; }
-    50%  { transform: translateX(260px) rotate(5deg); }
-    100% { transform: translateX(260px) rotate(5deg) rotateY(180deg); }
+    48%  { transform: translateX(170px) translateY(-5px) rotate(5deg) rotateY(0deg); }
+    100% { transform: translateX(170px) translateY(-5px) rotate(5deg) rotateY(180deg); }
   }
   @keyframes tape-insert {
-    0%   { transform: translateX(260px) rotate(5deg) rotateY(180deg); }
-    50%  { transform: translateX(260px) rotate(5deg); }
+    0%   { transform: translateX(170px) translateY(-5px) rotate(5deg) rotateY(180deg); }
+    52%  { transform: translateX(170px) translateY(-5px) rotate(5deg) rotateY(0deg); }
     100% { transform: none; }
   }
 
@@ -1512,84 +1512,84 @@
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
   }
-  /* 封套背面：与正面等高，横向布局不撑高卡片 */
+  /* 封套背面 */
   .tape-back {
     position: absolute;
-    inset: 0;                /* 严格贴合 tape-track 四边，不超出 */
+    top: 0; left: 0; right: 0;
+    min-height: 210px;
     transform: rotateY(180deg);
     background: #f0e4c4;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(180,150,90,0.12) 23px, rgba(180,150,90,0.12) 24px);
     border: 1px solid #c8a050;
     border-radius: 2px;
-    padding: 0 14px;
+    padding: 16px 18px 14px;
     box-sizing: border-box;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    gap: 12px;
   }
-  /* 宝丽来相片组：横排，填满卡片高度 */
+  /* 封套标题 */
+  .sleeve-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #2a1a08;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid rgba(180,130,50,0.5);
+    padding-bottom: 7px;
+    margin-bottom: 11px;
+  }
+  /* 封套主体 */
+  .sleeve-body {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  /* 宝丽来相片组 */
   .sleeve-photos {
     display: flex;
-    gap: 7px;
-    align-items: center;
+    gap: 8px;
     flex-shrink: 0;
-    height: 100%;
-    padding: 6px 0;
+    align-items: flex-end;
   }
   .polaroid {
     background: #fff;
-    padding: 4px 4px 13px;
-    box-shadow: 2px 3px 8px rgba(0,0,0,0.22);
+    padding: 5px 5px 16px;
+    box-shadow: 2px 3px 10px rgba(0,0,0,0.25), 0 1px 3px rgba(0,0,0,0.15);
+    width: 86px;
     flex-shrink: 0;
-    height: 100%;
-    box-sizing: border-box;
-    display: flex;
-    align-items: stretch;
   }
-  .polaroid:nth-child(1) { transform: rotate(-2.5deg); }
-  .polaroid:nth-child(2) { transform: rotate(1.5deg); }
-  .polaroid:nth-child(3) { transform: rotate(-1deg); }
+  .polaroid:nth-child(1) { transform: rotate(-3.5deg) translateY(2px); }
+  .polaroid:nth-child(2) { transform: rotate(2deg); }
+  .polaroid:nth-child(3) { transform: rotate(-1.5deg) translateY(3px); }
   .polaroid img {
-    width: 68px;
-    height: 100%;
+    width: 100%;
+    height: 64px;
     object-fit: cover;
     display: block;
     background: #d0c8b8;
   }
-  /* 右侧：标题 + 印章 */
-  .sleeve-info {
+  /* 封套文字 */
+  .sleeve-text {
     flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    padding: 8px 0;
-    overflow: hidden;
-  }
-  .sleeve-title {
-    font-family: 'Noto Serif SC', serif;
-    font-size: 12px;
-    font-weight: 700;
-    color: #2a1a08;
-    letter-spacing: 0.04em;
-    line-height: 1.4;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 10.5px;
+    color: #4a3520;
+    line-height: 1.85;
+    opacity: 0.9;
   }
   /* 封套底部印章 */
   .sleeve-footer {
+    margin-top: 12px;
     text-align: right;
   }
   .sleeve-stamp {
     display: inline-block;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 9px;
+    font-size: 10px;
     color: #a07828;
-    border: 1px solid #a07828;
-    padding: 2px 7px;
-    letter-spacing: 0.2em;
+    border: 1.5px solid #a07828;
+    padding: 3px 10px;
+    letter-spacing: 0.25em;
     opacity: 0.8;
     transform: rotate(-1.5deg);
     display: inline-block;
@@ -3268,12 +3268,13 @@
     }
 
     back.innerHTML = `
-      <div class="sleeve-photos">${photosHtml}</div>
-      <div class="sleeve-info">
-        <div class="sleeve-title">${name}</div>
-        <div class="sleeve-footer">
-          <span class="sleeve-stamp">ARCHIVED · 2024</span>
-        </div>
+      <div class="sleeve-title">${name}</div>
+      <div class="sleeve-body">
+        <div class="sleeve-photos">${photosHtml}</div>
+        <div class="sleeve-text">${desc}</div>
+      </div>
+      <div class="sleeve-footer">
+        <span class="sleeve-stamp">ARCHIVED · 2024</span>
       </div>`;
 
     /* ── 组装 tape-track ── */
