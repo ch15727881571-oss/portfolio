@@ -1460,52 +1460,139 @@
     cursor: pointer;
   }
 
-  /* ============ ARCHIVE LIGHTBOX ============ */
-  .arch-lightbox {
-    position: fixed; inset: 0;
-    z-index: 9999;
-    background: rgba(0, 0, 0, 0.92);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    backdrop-filter: blur(8px);
+  /* ============ TAPE FLIP (ARCHIVE) ============ */
+
+  /* 开合时覆盖 nth-child 旋转 & hover 抬升，确保磁带能自由飞出 */
+  .arch-proj.tape-open,
+  .arch-proj.tape-open:hover,
+  .arch-proj.tape-closing,
+  .arch-proj.tape-closing:hover {
+    transform: none !important;
+    box-shadow: none !important;
+    z-index: 50;
+    overflow: visible;
   }
-  .arch-lightbox.active { display: flex; }
-  .arch-lightbox img {
-    max-width: 90vw;
-    max-height: 86vh;
-    object-fit: contain;
-    border: 1px solid rgba(212, 168, 87, 0.3);
-    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
+  /* 磁带飞出时隐藏架子上的伪元素装饰 */
+  .arch-proj.tape-open::before,
+  .arch-proj.tape-open::after,
+  .arch-proj.tape-closing::before,
+  .arch-proj.tape-closing::after {
+    opacity: 0;
+    transition: opacity 0.15s;
   }
-  .arch-lb-btn {
+
+  /* 3D 翻转容器 */
+  .tape-track {
+    position: relative;
+    transform-style: preserve-3d;
+    /* perspective 放在 arch-proj 上 */
+  }
+  .arch-proj { perspective: 1400px; }
+
+  /* 磁带弹出动画 */
+  .arch-proj.tape-open .tape-track {
+    animation: tape-eject 0.75s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  .arch-proj.tape-closing .tape-track {
+    animation: tape-insert 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+  @keyframes tape-eject {
+    0%   { transform: none; }
+    48%  { transform: translateX(170px) translateY(-5px) rotate(5deg) rotateY(0deg); }
+    100% { transform: translateX(170px) translateY(-5px) rotate(5deg) rotateY(180deg); }
+  }
+  @keyframes tape-insert {
+    0%   { transform: translateX(170px) translateY(-5px) rotate(5deg) rotateY(180deg); }
+    52%  { transform: translateX(170px) translateY(-5px) rotate(5deg) rotateY(0deg); }
+    100% { transform: none; }
+  }
+
+  /* 正反面共同属性 */
+  .tape-face {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
+  /* 封套背面 */
+  .tape-back {
     position: absolute;
-    background: rgba(20, 14, 6, 0.7);
-    border: 1px solid rgba(212, 168, 87, 0.4);
-    color: var(--gold-bright);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 22px;
-    width: 48px; height: 48px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    transition: all .2s;
-    user-select: none;
+    top: 0; left: 0; right: 0;
+    min-height: 210px;
+    transform: rotateY(180deg);
+    background: #f0e4c4;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 23px, rgba(180,150,90,0.12) 23px, rgba(180,150,90,0.12) 24px);
+    border: 1px solid #c8a050;
+    border-radius: 2px;
+    padding: 16px 18px 14px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
-  .arch-lb-btn:hover { background: rgba(40, 28, 12, 0.9); border-color: var(--gold-bright); }
-  .arch-lb-prev { left: 24px; top: 50%; transform: translateY(-50%); }
-  .arch-lb-next { right: 24px; top: 50%; transform: translateY(-50%); }
-  .arch-lb-close { right: 24px; top: 24px; }
-  .arch-lb-info {
-    position: absolute;
-    left: 50%; bottom: 24px;
-    transform: translateX(-50%);
-    color: var(--gold);
+  /* 封套标题 */
+  .sleeve-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #2a1a08;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid rgba(180,130,50,0.5);
+    padding-bottom: 7px;
+    margin-bottom: 11px;
+  }
+  /* 封套主体 */
+  .sleeve-body {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+  /* 宝丽来相片组 */
+  .sleeve-photos {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+    align-items: flex-end;
+  }
+  .polaroid {
+    background: #fff;
+    padding: 5px 5px 16px;
+    box-shadow: 2px 3px 10px rgba(0,0,0,0.25), 0 1px 3px rgba(0,0,0,0.15);
+    width: 86px;
+    flex-shrink: 0;
+  }
+  .polaroid:nth-child(1) { transform: rotate(-3.5deg) translateY(2px); }
+  .polaroid:nth-child(2) { transform: rotate(2deg); }
+  .polaroid:nth-child(3) { transform: rotate(-1.5deg) translateY(3px); }
+  .polaroid img {
+    width: 100%;
+    height: 64px;
+    object-fit: cover;
+    display: block;
+    background: #d0c8b8;
+  }
+  /* 封套文字 */
+  .sleeve-text {
+    flex: 1;
+    font-family: 'Noto Sans SC', sans-serif;
+    font-size: 10.5px;
+    color: #4a3520;
+    line-height: 1.85;
+    opacity: 0.9;
+  }
+  /* 封套底部印章 */
+  .sleeve-footer {
+    margin-top: 12px;
+    text-align: right;
+  }
+  .sleeve-stamp {
+    display: inline-block;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
+    color: #a07828;
+    border: 1.5px solid #a07828;
+    padding: 3px 10px;
     letter-spacing: 0.25em;
-    background: rgba(20, 14, 6, 0.7);
-    padding: 6px 14px;
-    border: 1px solid rgba(212, 168, 87, 0.3);
+    opacity: 0.8;
+    transform: rotate(-1.5deg);
+    display: inline-block;
   }
 
   /* 文字标签 */
@@ -2677,14 +2764,6 @@
   </div>
 </div>
 
-<!-- ARCH LIGHTBOX -->
-<div class="arch-lightbox" id="archLightbox">
-  <button class="arch-lb-btn arch-lb-close" id="archLbClose">✕</button>
-  <button class="arch-lb-btn arch-lb-prev" id="archLbPrev">◀</button>
-  <button class="arch-lb-btn arch-lb-next" id="archLbNext">▶</button>
-  <img id="archLbImg" src="" alt="">
-  <div class="arch-lb-info" id="archLbInfo"></div>
-</div>
 
 <!-- VHS PLAYER -->
 <div class="vhs-player" id="vhsPlayer">
@@ -3158,52 +3237,84 @@
     if (e.key === 'ArrowRight') loadTape((currentTapeIdx + 1) % tapes.length);
   });
 
-  /* ============ ARCH LIGHTBOX ============ */
-  const archLightbox = document.getElementById('archLightbox');
-  const archLbImg = document.getElementById('archLbImg');
-  const archLbInfo = document.getElementById('archLbInfo');
-  let archLbAlbum = '01', archLbIdx = 1, archLbCount = 4;
-
-  function archLbLoad() {
-    archLbImg.src = cdnUrl(`作品集/archive/${archLbAlbum}/${archLbIdx}.jpg`);
-    archLbInfo.textContent = `${archLbIdx} / ${archLbCount}`;
-  }
-
-  function archLbOpen(album, count, idx) {
-    archLbAlbum = album;
-    archLbCount = count;
-    archLbIdx = idx || 1;
-    archLbLoad();
-    archLightbox.classList.add('active');
+  /* ============ TAPE FLIP (ARCHIVE) ============ */
+  function closeTape(proj) {
+    proj.classList.remove('tape-open');
+    proj.classList.add('tape-closing');
+    proj.querySelector('.tape-track').addEventListener('animationend', () => {
+      proj.classList.remove('tape-closing');
+    }, { once: true });
   }
 
   document.querySelectorAll('.arch-proj[data-album]').forEach(proj => {
-    proj.addEventListener('click', () => {
-      archLbOpen(proj.dataset.album, parseInt(proj.dataset.count), 1);
+    const album  = proj.dataset.album;
+    const count  = parseInt(proj.dataset.count);
+    const name   = proj.querySelector('.arch-proj-name').textContent;
+    const desc   = proj.querySelector('.arch-proj-desc').textContent;
+
+    /* ── 把现有正面内容套进 tape-track > tape-face.tape-front ── */
+    const front = document.createElement('div');
+    front.className = 'tape-face tape-front';
+    while (proj.firstChild) front.appendChild(proj.firstChild);
+
+    /* ── 构建封套背面 ── */
+    const back = document.createElement('div');
+    back.className = 'tape-face tape-back';
+
+    const numPhotos = Math.min(count, 3);
+    let photosHtml = '';
+    for (let i = 1; i <= numPhotos; i++) {
+      photosHtml += `<div class="polaroid"><img data-src="${cdnUrl(`作品集/archive/${album}/${i}.jpg`)}" alt=""></div>`;
+    }
+
+    back.innerHTML = `
+      <div class="sleeve-title">${name}</div>
+      <div class="sleeve-body">
+        <div class="sleeve-photos">${photosHtml}</div>
+        <div class="sleeve-text">${desc}</div>
+      </div>
+      <div class="sleeve-footer">
+        <span class="sleeve-stamp">ARCHIVED · 2024</span>
+      </div>`;
+
+    /* ── 组装 tape-track ── */
+    const track = document.createElement('div');
+    track.className = 'tape-track';
+    track.appendChild(front);
+    track.appendChild(back);
+    proj.appendChild(track);
+
+    /* ── 点击事件 ── */
+    proj.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (proj.classList.contains('tape-open')) {
+        closeTape(proj);
+      } else {
+        /* 先关闭其他已打开的磁带 */
+        document.querySelectorAll('.arch-proj.tape-open').forEach(other => closeTape(other));
+        proj.classList.add('tape-open');
+        /* 延迟加载宝丽来图片 */
+        back.querySelectorAll('img[data-src]').forEach(img => {
+          img.src = img.dataset.src;
+          img.removeAttribute('data-src');
+        });
+      }
+      playClick();
     });
   });
 
-  document.getElementById('archLbClose').addEventListener('click', () => {
-    archLightbox.classList.remove('active');
+  /* 点击空白关闭 */
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.arch-proj')) {
+      document.querySelectorAll('.arch-proj.tape-open').forEach(closeTape);
+    }
   });
-  document.getElementById('archLbPrev').addEventListener('click', () => {
-    archLbIdx = archLbIdx > 1 ? archLbIdx - 1 : archLbCount;
-    archLbLoad();
-  });
-  document.getElementById('archLbNext').addEventListener('click', () => {
-    archLbIdx = archLbIdx < archLbCount ? archLbIdx + 1 : 1;
-    archLbLoad();
-  });
-  archLightbox.addEventListener('click', (e) => {
-    if (e.target === archLightbox) archLightbox.classList.remove('active');
-  });
+  /* ESC 关闭 */
   document.addEventListener('keydown', (e) => {
-    if (!archLightbox.classList.contains('active')) return;
-    e.stopImmediatePropagation();
-    if (e.key === 'Escape') archLightbox.classList.remove('active');
-    if (e.key === 'ArrowLeft') { archLbIdx = archLbIdx > 1 ? archLbIdx - 1 : archLbCount; archLbLoad(); }
-    if (e.key === 'ArrowRight') { archLbIdx = archLbIdx < archLbCount ? archLbIdx + 1 : 1; archLbLoad(); }
-  }, true);
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.arch-proj.tape-open').forEach(closeTape);
+    }
+  });
 
   /* ============ HUD CLOCK ============ */
   setInterval(() => {
