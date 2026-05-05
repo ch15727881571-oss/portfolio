@@ -1622,25 +1622,22 @@
     padding: 2px 4px;
   }
   .pz-close:hover { opacity: 1; }
-  /* 图片主区 */
+  /* 图片主区 — 深色背景让白边卡片清晰浮出 */
   .pz-img-area {
-    background: #f0e4c4;
-    background-image: repeating-linear-gradient(
-      0deg, transparent, transparent 23px,
-      rgba(180,150,90,0.12) 23px, rgba(180,150,90,0.12) 24px);
+    background: #1a1208;
     display: flex; align-items: center; justify-content: center;
-    padding: 14px;
+    padding: 24px 28px;
     min-height: 200px; min-width: 260px;
   }
+  /* 拍立得白框卡片 */
   .pz-img-area img {
     display: block;
-    max-width: min(74vw, 680px);
-    max-height: 60vh;
+    max-width: min(72vw, 660px);
+    max-height: 62vh;
     object-fit: contain;
-    /* 拍立得白边：上/左/右 均等，底部加宽 */
     background: #fff;
-    padding: 10px 10px 38px;
-    box-shadow: 2px 5px 22px rgba(0,0,0,0.5), 0 1px 4px rgba(0,0,0,0.2);
+    padding: 10px 10px 42px;   /* 底部加宽模拟拍立得 */
+    box-shadow: 3px 6px 28px rgba(0,0,0,0.75), 0 2px 6px rgba(0,0,0,0.4);
   }
   /* 翻页按钮 */
   .pz-nav-btn {
