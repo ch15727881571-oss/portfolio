@@ -1583,16 +1583,17 @@
   .pz-overlay {
     position: fixed; inset: 0; z-index: 99999;
     background: rgba(0,0,0,0.88);
-    display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 18px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: zoom-out;
   }
   /* 拍立得卡片 */
   .pz-card {
+    position: relative;
     background: #fff;
     padding: 10px 10px 42px;
     box-shadow: 4px 8px 36px rgba(0,0,0,0.8), 0 2px 8px rgba(0,0,0,0.5);
     line-height: 0;
+    cursor: default;
   }
   .pz-card img {
     display: block;
@@ -1600,25 +1601,21 @@
     max-height: 64vh;
     object-fit: contain;
   }
-  /* 导航栏 */
-  .pz-nav {
-    display: flex; align-items: center; gap: 20px;
+  /* 左右翻页箭头（悬浮在卡片两侧） */
+  .pz-arrow {
+    position: absolute; top: 0; bottom: 42px; /* 底部白边内 */
+    width: 48px;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0);
+    color: rgba(255,255,255,0);
+    font-size: 24px; cursor: pointer;
+    transition: background 0.2s, color 0.2s;
     user-select: none;
   }
-  .pz-nav-btn {
-    background: none; border: none;
-    color: rgba(255,255,255,0.55); cursor: pointer;
-    font-size: 22px; line-height: 1;
-    padding: 4px 8px;
-    transition: color 0.15s;
-  }
-  .pz-nav-btn:hover:not(:disabled) { color: #fff; }
-  .pz-nav-btn:disabled { opacity: 0.18; cursor: default; }
-  .pz-counter {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; color: rgba(255,255,255,0.4);
-    letter-spacing: 0.12em; min-width: 56px; text-align: center;
-  }
+  .pz-arrow.pz-prev { left: 0; }
+  .pz-arrow.pz-next { right: 0; }
+  .pz-arrow:hover { background: rgba(0,0,0,0.28); color: rgba(255,255,255,0.9); }
+  .pz-arrow:disabled, .pz-arrow[disabled] { opacity: 0; pointer-events: none; }
   /* 封套底部印章 */
   .sleeve-footer {
     margin-top: 12px;
@@ -3360,7 +3357,7 @@
     });
   });
 
-  /* ── 放大预览（纯拍立得卡片 + 前后翻页） ── */
+  /* ── 放大预览（拍立得卡片 + 侧边悬浮箭头） ── */
   function openPolaroidZoom(allSrcs, startIdx) {
     let cur = startIdx;
     const total = allSrcs.length;
@@ -3370,35 +3367,36 @@
 
     const card = document.createElement('div');
     card.className = 'pz-card';
+
     const imgEl = document.createElement('img');
     card.appendChild(imgEl);
 
-    const nav = document.createElement('div');
-    nav.className = 'pz-nav';
-    nav.innerHTML = `
-      <button class="pz-nav-btn pz-prev">&#8592;</button>
-      <span class="pz-counter"></span>
-      <button class="pz-nav-btn pz-next">&#8594;</button>`;
-
-    const prevBtn = nav.querySelector('.pz-prev');
-    const nextBtn = nav.querySelector('.pz-next');
-    const counter = nav.querySelector('.pz-counter');
+    /* 左右箭头（仅多张时显示） */
+    let prevBtn, nextBtn;
+    if (total > 1) {
+      prevBtn = document.createElement('div');
+      prevBtn.className = 'pz-arrow pz-prev';
+      prevBtn.innerHTML = '&#8592;';
+      nextBtn = document.createElement('div');
+      nextBtn.className = 'pz-arrow pz-next';
+      nextBtn.innerHTML = '&#8594;';
+      card.appendChild(prevBtn);
+      card.appendChild(nextBtn);
+    }
 
     function render() {
       imgEl.src = allSrcs[cur];
-      counter.textContent = `${cur + 1} / ${total}`;
-      prevBtn.disabled = cur === 0;
-      nextBtn.disabled = cur === total - 1;
+      if (prevBtn) prevBtn.toggleAttribute('disabled', cur === 0);
+      if (nextBtn) nextBtn.toggleAttribute('disabled', cur === total - 1);
     }
 
-    prevBtn.onclick = (e) => { e.stopPropagation(); if (cur > 0)         { cur--; render(); } };
-    nextBtn.onclick = (e) => { e.stopPropagation(); if (cur < total - 1) { cur++; render(); } };
+    if (prevBtn) prevBtn.onclick = (e) => { e.stopPropagation(); if (cur > 0)         { cur--; render(); } };
+    if (nextBtn) nextBtn.onclick = (e) => { e.stopPropagation(); if (cur < total - 1) { cur++; render(); } };
 
     render();
     overlay.appendChild(card);
-    if (total > 1) overlay.appendChild(nav);
 
-    /* 点击背景关闭 */
+    /* 点击遮罩关闭 */
     overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
 
     /* 键盘：← → 翻页，ESC 关闭 */
