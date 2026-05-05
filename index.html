@@ -1578,24 +1578,85 @@
     display: block;
     background: #d0c8b8;
   }
-  /* 图片放大遮罩 */
-  .polaroid-zoom {
-    position: fixed;
-    inset: 0;
-    z-index: 99999;
-    background: rgba(0,0,0,0.88);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: zoom-out;
+  /* ── 图片放大预览（档案卡片风格） ── */
+  .pz-overlay {
+    position: fixed; inset: 0; z-index: 99999;
+    background: rgba(6,4,2,0.92);
+    display: flex; align-items: center; justify-content: center;
   }
-  .polaroid-zoom img {
-    max-width: 86vw;
-    max-height: 86vh;
+  .pz-frame {
+    display: flex; flex-direction: column;
+    border: 2px solid #8b6914;
+    border-radius: 3px;
+    box-shadow: 0 0 0 1px #c8a050, 0 0 0 4px rgba(10,8,4,0.8),
+                0 24px 64px rgba(0,0,0,0.85);
+    overflow: hidden;
+    max-width: 92vw;
+    background: #12090220;
+  }
+  /* 上下横梁 — 木纹 */
+  .pz-bar {
+    background:
+      repeating-linear-gradient(90deg,
+        #2e1e08 0px, #4a2f0e 6px, #3a260c 12px, #2e1e08 18px);
+    border-color: #8b6914;
+    display: flex; align-items: center; gap: 12px;
+    padding: 7px 14px;
+    user-select: none;
+  }
+  .pz-bar-top  { border-bottom: 2px solid #8b6914; justify-content: space-between; }
+  .pz-bar-bot  { border-top:    2px solid #8b6914; justify-content: space-between; }
+  /* 标题 */
+  .pz-title {
+    font-family: 'Noto Serif SC', serif;
+    font-size: 12px; letter-spacing: 0.08em;
+    color: #e8d5a0; flex: 1;
+    overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+  }
+  /* 关闭按钮 */
+  .pz-close {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px; color: #c8a050;
+    cursor: pointer; line-height: 1;
+    opacity: 0.8; transition: opacity 0.15s;
+    padding: 2px 4px;
+  }
+  .pz-close:hover { opacity: 1; }
+  /* 图片主区 */
+  .pz-img-area {
+    background: #f0e4c4;
+    background-image: repeating-linear-gradient(
+      0deg, transparent, transparent 23px,
+      rgba(180,150,90,0.12) 23px, rgba(180,150,90,0.12) 24px);
+    display: flex; align-items: center; justify-content: center;
+    padding: 14px;
+    min-height: 200px; min-width: 260px;
+  }
+  .pz-img-area img {
+    display: block;
+    max-width: min(82vw, 780px);
+    max-height: 72vh;
     object-fit: contain;
-    box-shadow: 0 12px 48px rgba(0,0,0,0.7);
+    box-shadow: 0 6px 28px rgba(0,0,0,0.45);
     background: #fff;
-    padding: 10px 10px 30px;
+  }
+  /* 翻页按钮 */
+  .pz-nav-btn {
+    background: none;
+    border: 1px solid rgba(200,160,80,0.5);
+    color: #e0c87a; cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; padding: 3px 10px; border-radius: 2px;
+    letter-spacing: 0.05em;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .pz-nav-btn:hover:not(:disabled) { background: rgba(200,160,80,0.18); border-color: #c8a050; }
+  .pz-nav-btn:disabled { opacity: 0.28; cursor: default; }
+  /* 计数器 */
+  .pz-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; color: #c8a050;
+    letter-spacing: 0.1em;
   }
   /* 封套底部印章 */
   .sleeve-footer {
@@ -3307,13 +3368,18 @@
     proj.addEventListener('click', (e) => {
       e.stopPropagation();
 
-      /* 优先：点击宝丽来照片 → 放大预览 */
+      /* 优先：点击宝丽来照片 → 放大预览（含全部图片翻页） */
       const pol = e.target.closest('.polaroid');
       if (pol) {
-        const img = pol.querySelector('img');
-        if (img && img.src && !img.dataset.src) {
-          openPolaroidZoom(img.src);
+        /* 构建该相册全部图片 URL */
+        const allSrcs = [];
+        for (let i = 1; i <= count; i++) {
+          allSrcs.push(cdnUrl(`作品集/archive/${album}/${i}.jpg`));
         }
+        /* 确定点击的是第几张（sleeve 上最多显示3张，但全部图片可翻页） */
+        const polaroids = [...back.querySelectorAll('.polaroid')];
+        const polIdx = polaroids.indexOf(pol);
+        openPolaroidZoom(allSrcs, polIdx >= 0 ? polIdx : 0, name);
         return;
       }
 
@@ -3333,13 +3399,55 @@
     });
   });
 
-  /* 宝丽来放大预览函数 */
-  function openPolaroidZoom(src) {
-    const zoom = document.createElement('div');
-    zoom.className = 'polaroid-zoom';
-    zoom.innerHTML = `<img src="${src}" alt="">`;
-    zoom.addEventListener('click', () => zoom.remove());
-    document.body.appendChild(zoom);
+  /* ── 放大预览（档案卡风格 + 前后翻页） ── */
+  function openPolaroidZoom(allSrcs, startIdx, projName) {
+    let cur = startIdx;
+    const total = allSrcs.length;
+
+    const overlay = document.createElement('div');
+    overlay.className = 'pz-overlay';
+
+    const frame = document.createElement('div');
+    frame.className = 'pz-frame';
+
+    function render() {
+      frame.innerHTML = `
+        <div class="pz-bar pz-bar-top">
+          <span class="pz-title">${projName || ''}</span>
+          <span class="pz-close" title="关闭 · ESC">✕ CLOSE</span>
+        </div>
+        <div class="pz-img-area">
+          <img src="${allSrcs[cur]}" alt="">
+        </div>
+        <div class="pz-bar pz-bar-bot">
+          <button class="pz-nav-btn pz-prev" ${cur === 0 ? 'disabled' : ''}>◀ PREV</button>
+          <span class="pz-counter">ARCHIVE · ${String(cur+1).padStart(2,'0')} / ${String(total).padStart(2,'0')}</span>
+          <button class="pz-nav-btn pz-next" ${cur === total-1 ? 'disabled' : ''}>NEXT ▶</button>
+        </div>`;
+
+      frame.querySelector('.pz-close').onclick = (ev) => { ev.stopPropagation(); overlay.remove(); };
+      const prevBtn = frame.querySelector('.pz-prev');
+      const nextBtn = frame.querySelector('.pz-next');
+      if (prevBtn) prevBtn.onclick = (ev) => { ev.stopPropagation(); cur--; render(); };
+      if (nextBtn) nextBtn.onclick = (ev) => { ev.stopPropagation(); cur++; render(); };
+    }
+
+    render();
+    overlay.appendChild(frame);
+
+    /* 点击遮罩背景关闭 */
+    overlay.addEventListener('click', (e) => { if (e.target === overlay) overlay.remove(); });
+
+    /* 键盘：← → 翻页，ESC 关闭 */
+    function onKey(e) {
+      if (e.key === 'ArrowLeft'  && cur > 0)         { cur--; render(); }
+      if (e.key === 'ArrowRight' && cur < total - 1) { cur++; render(); }
+      if (e.key === 'Escape') { overlay.remove(); document.removeEventListener('keydown', onKey); }
+    }
+    document.addEventListener('keydown', onKey);
+    overlay.addEventListener('remove', () => document.removeEventListener('keydown', onKey));
+
+    document.body.appendChild(overlay);
   }
 
   /* 点击空白关闭磁带 */
@@ -3349,11 +3457,10 @@
     }
   });
 
-  /* ESC 关闭放大预览或磁带 */
+  /* ESC 关闭磁带（放大预览有独立 keydown 监听） */
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
-      const zoom = document.querySelector('.polaroid-zoom');
-      if (zoom) { zoom.remove(); return; }
+      if (document.querySelector('.pz-overlay')) return; /* 预览自己处理 ESC */
       document.querySelectorAll('.arch-proj.tape-open').forEach(closeTape);
     }
   });
