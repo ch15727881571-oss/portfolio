@@ -343,29 +343,6 @@
   }
 
   .hud-rec { display: inline-flex; align-items: center; gap: 6px; }
-  /* BGM 按钮 */
-  .hud-bgm {
-    display: inline-flex; align-items: center; gap: 5px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px; letter-spacing: 0.1em;
-    color: rgba(200,170,90,0.45);
-    cursor: pointer;
-    padding: 2px 7px;
-    border: 1px solid rgba(200,170,90,0.2);
-    border-radius: 2px;
-    transition: color 0.2s, border-color 0.2s;
-    user-select: none;
-  }
-  .hud-bgm:hover { color: rgba(200,170,90,0.8); border-color: rgba(200,170,90,0.5); }
-  .hud-bgm.playing {
-    color: var(--gold-bright);
-    border-color: rgba(200,170,90,0.6);
-    animation: bgm-pulse 2s ease-in-out infinite;
-  }
-  @keyframes bgm-pulse {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0.6; }
-  }
   .hud-rec::before {
     content: ''; width: 7px; height: 7px;
     border-radius: 50%;
@@ -2284,7 +2261,6 @@
             <span class="ch-id" id="hud-ch">CH.04 — AI WORKS</span>
             <span class="station">CHEN · HONG · BROADCAST</span>
             <span class="hud-rec">REC · 12:22:00</span>
-            <span class="hud-bgm" id="hud-bgm" title="背景音乐">♪ BGM</span>
           </div>
           <audio id="bgm-audio" src="bgm.mp3" loop preload="auto"></audio>
 
@@ -3027,6 +3003,12 @@
       const target = muted ? -Infinity : volLevels[volPos];
       masterGain.gain.rampTo(Tone.dbToGain(target), 0.3);
     }
+    /* 同步控制 BGM */
+    const bgm = document.getElementById('bgm-audio');
+    if (bgm) {
+      if (muted) { bgm.pause(); }
+      else if (bgm.paused) { bgm.play().catch(() => {}); }
+    }
   }
 
   /* ============ POWER GATE ============ */
@@ -3041,6 +3023,12 @@
       await initAudio();
       playStaticBurst(); // 仅在开机过场期间响
     } catch (e) { console.warn('Audio init failed', e); }
+
+    /* 雪花结束后（2400ms）启动背景音乐 */
+    setTimeout(() => {
+      const bgm = document.getElementById('bgm-audio');
+      if (bgm && !muted) bgm.play().catch(() => {});
+    }, 2400);
   }
   // Make sure intro doesn't auto-play before power-on
   tv.classList.remove('power-on');
@@ -3481,46 +3469,10 @@
     if (recEl) recEl.innerHTML = `REC · ${hh}:${mm}:${ss}`;
   }, 1000);
 
-  /* ============ BGM ============ */
+  /* BGM 音量初始化 */
   (function () {
     const bgm = document.getElementById('bgm-audio');
-    const btn = document.getElementById('hud-bgm');
-    if (!bgm || !btn) return;
-
-    bgm.volume = 0.35;
-    let bgmPlaying = false;
-
-    function setBgmState(playing) {
-      bgmPlaying = playing;
-      btn.classList.toggle('playing', playing);
-      btn.textContent = playing ? '♫ BGM' : '♪ BGM';
-    }
-
-    /* 页面首次交互后自动播放 */
-    let autoStarted = false;
-    function tryAutoStart() {
-      if (autoStarted) return;
-      autoStarted = true;
-      bgm.play().then(() => setBgmState(true)).catch(() => {});
-    }
-    document.addEventListener('click',     tryAutoStart, { once: true });
-    document.addEventListener('keydown',   tryAutoStart, { once: true });
-    document.addEventListener('touchstart',tryAutoStart, { once: true });
-
-    /* 手动开关 */
-    btn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      autoStarted = true;
-      if (bgmPlaying) {
-        bgm.pause();
-        setBgmState(false);
-      } else {
-        bgm.play().then(() => setBgmState(true)).catch(() => {});
-      }
-    });
-
-    bgm.addEventListener('play',  () => setBgmState(true));
-    bgm.addEventListener('pause', () => setBgmState(false));
+    if (bgm) bgm.volume = 0.35;
   })();
 </script>
 
